@@ -1,0 +1,65 @@
+[tool.poetry]
+name = "Hacker_News_Chinese"
+version = "1.0.0"
+description = "Hacker News Chinese"
+authors = ["Hacker News Chinese <hackernews@example.com>"]
+readme = "README.md"
+
+packages = [
+    { include = "app" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.104.1"
+uvicorn = {extras = ["standard"], version = "^0.24.0"}
+python-multipart = "^0.0.6"
+sqlalchemy = "^2.0.23"
+asyncpg = "^0.29.0"
+alembic = "^1.12.1"
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+bcrypt = "^4.1.1"
+pydantic = "^2.5.0"
+pydantic-settings = "^2.1.0"
+loguru = "^0.7.2"
+redis = "^5.0.1"
+email-validator = "^2.3.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+pytest-asyncio = "^0.21.1"
+httpx = "^0.25.1"
+aiosqlite = "^0.19.0"
+black = "^23.11.0"
+flake8 = "^6.1.0"
+mypy = "^1.7.1"
+isort = "^5.12.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 100
+multi_line_output = 3
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
+
