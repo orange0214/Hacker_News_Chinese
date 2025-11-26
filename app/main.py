@@ -1,19 +1,40 @@
-"""
-Minimal FastAPI application entry point
-"""
+import uvicorn
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from app.api.router import api_router
+from app.db.supabase import init_supabase
 
 
-app = FastAPI(title="Hacker News Chinese", version="1.0.0")
+app = FastAPI(
+    title="Hacker News Chinese", 
+    version="1.0.0",
+    docs_url="/api/docs"
+)
 
 # Mount API router
 app.include_router(api_router)
 
 
-if __name__ == "__main__":
-    import uvicorn
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    supabase = init_supabase()
+    app.state.supabase = supabase
+    try:
+        yield
+    finally:
+        app.state.supabase = None
 
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True, log_level="info")
+
+def main():
+    uvicorn.run(
+        "app.main:app",
+        host="0.0.0.0",
+        port=8000,
+        reload=True,
+        log_level="info"
+    )
+
+if __name__ == "__main__":
+    main()
 

@@ -9,13 +9,10 @@
 - 🔐 **JWT 认证** - 完整的用户认证和授权系统
 - 📝 **Pydantic** - 数据验证和序列化
 - 🎯 **分层架构** - Repository、Service、API 三层架构
-- 🧪 **测试框架** - pytest + httpx 异步测试
 - 🐳 **Docker** - 完整的容器化支持
 - 📊 **日志系统** - 结构化日志（loguru）
-- 🔄 **数据库迁移** - Alembic 迁移工具
 - 📚 **API 文档** - 自动生成的 Swagger/ReDoc 文档
 - 🛡️ **异常处理** - 统一的异常处理机制
-- 🎨 **代码质量** - Black、isort、flake8、mypy
 
 ## 📁 项目结构（精简版）
 
@@ -126,34 +123,6 @@ pytest tests/test_api/test_auth.py
 pytest --cov=app --cov-report=html
 ```
 
-## 🗄️ 数据库迁移
-
-### 创建新迁移
-
-```bash
-alembic revision --autogenerate -m "Add new table"
-```
-
-### 应用迁移
-
-```bash
-alembic upgrade head
-```
-
-### 回滚迁移
-
-```bash
-alembic downgrade -1
-```
-
-## 📊 日志
-
-日志文件位置：`logs/app.log`
-
-日志配置可在 `app/core/config.py` 中修改：
-- `LOG_LEVEL`: 日志级别 (DEBUG, INFO, WARNING, ERROR)
-- `LOG_FILE`: 日志文件路径
-
 ## 🔐 安全性
 
 - JWT 令牌认证
@@ -171,7 +140,6 @@ alembic downgrade -1
 5. 启用速率限制
 6. 定期更新依赖
 
-## 🛠️ 开发工具
 
 ### 代码格式化
 
@@ -197,18 +165,3 @@ mypy app
 
 > 后续可按需添加数据库、认证、日志、中间件等模块。当前仓库不包含 Docker 相关文件，若需容器化可再补充。
 
-## 🤝 贡献
-
-欢迎提交 Issue 和 Pull Request！
-
-## 📄 许可
-
-MIT License
-
-## 📞 联系方式
-
-如有问题或建议，请通过 Issue 联系。
-
----
-
-**Made with ❤️ using FastAPI**
