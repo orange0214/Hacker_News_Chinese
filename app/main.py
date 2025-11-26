@@ -6,16 +6,6 @@ from app.api.router import api_router
 from app.db.supabase import init_supabase
 
 
-app = FastAPI(
-    title="Hacker News Chinese", 
-    version="1.0.0",
-    docs_url="/api/docs"
-)
-
-# Mount API router
-app.include_router(api_router)
-
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     supabase = init_supabase()
@@ -24,6 +14,16 @@ async def lifespan(app: FastAPI):
         yield
     finally:
         app.state.supabase = None
+
+app = FastAPI(
+    title="Hacker News Chinese", 
+    version="1.0.0",
+    docs_url="/api/docs",
+    lifespan=lifespan,
+)
+
+# Mount API router
+app.include_router(api_router)
 
 
 def main():
