@@ -28,13 +28,6 @@
 
 ## 🚀 快速开始
 
-### 前置要求
-
-- Python 3.11+
-- PostgreSQL 15+
-- Redis 7+ (可选)
-- Docker & Docker Compose (可选)
-
 ### 本地开发（Poetry）
 
 #### 1. 克隆项目
@@ -164,4 +157,3 @@ mypy app
 - **Pydantic** - 数据验证
 
 > 后续可按需添加数据库、认证、日志、中间件等模块。当前仓库不包含 Docker 相关文件，若需容器化可再补充。
-
