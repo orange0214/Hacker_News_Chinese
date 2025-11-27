@@ -1,4 +1,3 @@
--- Based on PRD.md Section 4
 -- Run this in your Supabase SQL Editor
 
 create table public.articles (
