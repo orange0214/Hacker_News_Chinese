@@ -1,18 +1,21 @@
 """
 Main API router
 """
-from fastapi import APIRouter
+from fastapi import APIRouter, Security
+from app.api.deps import get_current_user
 
 from app.api.endpoints.health import router as health_router
 from app.api.endpoints.auth import router as auth_router
+from app.api.endpoints.news import router as news_router
 
 
 api_router = APIRouter(prefix="/api")
 
 # Health endpoint
-api_router.include_router(health_router, tags=["health"])
+api_router.include_router(health_router)
 
 # Auth endpoints
-api_router.include_router(auth_router, tags=["auth"])
+api_router.include_router(auth_router)
 
-
+# News endpoints
+api_router.include_router(news_router, dependencies=[Security(get_current_user)])

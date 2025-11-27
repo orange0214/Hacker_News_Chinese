@@ -10,7 +10,7 @@ class HNStoryRaw(BaseModel):
     - Receiving the response from the HN API
     - Performing field cleaning/normalization so downstream usage is consistent
     """
-    hn_id: int = Field(alis="hn_id")
+    hn_id: int = Field(alias="id")
     original_title: str = Field(alias="title")
     original_url: Optional[str] = Field(default=None, alias="url")
     score: int = 0

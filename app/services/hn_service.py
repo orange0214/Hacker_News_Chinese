@@ -85,3 +85,5 @@ class HackerNewsClient:
 
             print(f"[HN] Successfully fetched {len(valid_stories)} valid stories.")
             return valid_stories
+
+hn_client = HackerNewsClient()
