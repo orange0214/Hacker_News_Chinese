@@ -10,15 +10,6 @@ class ArticleRepository:
         return get_supabase()
     
     def has_article(self, hn_id: int) -> bool:
-        """
-        Check whether an article with the given Hacker News ID exists in the database.
-
-        Args:
-            hn_id (int): Hacker News article ID.
-
-        Returns:
-            bool: True if the article exists, False otherwise.
-        """
         try:
             result = self.supabase.table(self.table_name)\
                 .select("id", count="exact", head=True)\
@@ -29,8 +20,15 @@ class ArticleRepository:
             # TODO: Log exception
             print(f"Error checking existence of article with hn_id {hn_id}: {e}")
             return False
-        
-
-
+    
+    def add_article(self, article: Article) -> Article:
+        try:
+            data = article.model_dump(mode="json")
+            response = self.supabase.table(self.table_name).insert(data).execute()
+            return Article.model_validate(response.data[0])
+        except Exception as e:
+            # TODO: Log exception
+            print(f"Error adding article: {e}")
+            return None
 
 article_repository = ArticleRepository()
