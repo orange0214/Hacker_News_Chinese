@@ -2,17 +2,10 @@
 
 一个最小可运行的 FastAPI 后端项目，只保留基础结构，便于快速启动，后续可按需扩展。
 
-## ✨ 特性
+## 描述
+Product Requirement Document: PRD.md
+TODO List: TODO.md
 
-- 🚀 **FastAPI** - 高性能的现代 Web 框架
-- 🗃️ **SQLAlchemy 2.0** - 异步 ORM，支持 PostgreSQL
-- 🔐 **JWT 认证** - 完整的用户认证和授权系统
-- 📝 **Pydantic** - 数据验证和序列化
-- 🎯 **分层架构** - Repository、Service、API 三层架构
-- 🐳 **Docker** - 完整的容器化支持
-- 📊 **日志系统** - 结构化日志（loguru）
-- 📚 **API 文档** - 自动生成的 Swagger/ReDoc 文档
-- 🛡️ **异常处理** - 统一的异常处理机制
 
 ## 📁 项目结构（精简版）
 
