@@ -9,6 +9,9 @@ packages = [
     { include = "app" }
 ]
 
+[tool.poetry.scripts]
+dev = "app.main:main"
+
 [tool.poetry.dependencies]
 python = "^3.11"
 fastapi = "^0.104.1"

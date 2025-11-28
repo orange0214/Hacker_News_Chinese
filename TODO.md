@@ -9,15 +9,21 @@
   - 查询 -> 提取网页关键内容（jina） -> AI 翻译，总结流程设计
   - PRD.md
 - Hacker News 异步访问API获取best, top, new stories 逻辑完成
-  
+
+#### 11/27/2025
+- 将表结构存入supabase
+  - 根据 hn_id 查询article存在
+  - 添加article进入db
+
+
 
 TODO:
 - 每半个小时执行一次轮询获取内容
-- 设计将表结构存入supabase
 - 探索使用jina取得网页信息
 - 研究AI翻译总结的高性能prompt
 - 将AI生成内容并入CreateArticle
 - 类存入数据库
+- 构建日志系统(不同的模块构造不同的日志，例如fetching from HN 存入hn_fetching.log?)
 
 
 
@@ -25,8 +31,8 @@ TODO:
 
 ## 1. Database & Repository Layer (Priority High)
 
-- [ ] **Schema Setup**: Create `articles` table in Supabase matching PRD Section 4.
-- [ ] **Repository Implementation**: Create `app/repositories/article_repository.py`.
+- [x] **Schema Setup**: Create `articles` table in Supabase matching PRD Section 4.
+- [x] **Repository Implementation**: Create `app/repositories/article_repository.py`.
     - `exists(hn_id: int) -> bool`: Check if article already exists (Deduplication).
     - `create(article: Article) -> Article`: Save processed article to DB.
 

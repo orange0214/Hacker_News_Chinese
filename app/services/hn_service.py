@@ -3,6 +3,7 @@ import aiohttp
 from typing import Any, Dict, List, Optional, Set
 from app.core.config import settings
 from app.schemas.hn import HNStoryRaw
+from app.repositories.article_repository import article_repository
 
 class HackerNewsClient:
     def __init__(self):
@@ -63,8 +64,8 @@ class HackerNewsClient:
             for ids in lists_of_ids:
                 all_ids_set.update(ids)
 
-            # TODO
-            # Supabase database deduplication logic
+            # prevent duplicate in db
+            all_ids_set = [id for id in all_ids_set if not article_repository.has_article(id)]
             
             ids_to_fetch = list(all_ids_set)
             print(f"[HN] Fetching {len(ids_to_fetch)} stories from Top, Best, New...")

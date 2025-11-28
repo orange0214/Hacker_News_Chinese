@@ -41,13 +41,12 @@ poetry install --no-root
 #### 3. 启动应用
 
 ```bash
-poetry run uvicorn app.main:app --reload
+poetry run dev
 ```
 
 应用将在 http://localhost:8000 启动
 
 - API 文档: http://localhost:8000/api/docs
-- ReDoc 文档: http://localhost:8000/api/redoc
 
 ### 常见问题
 
