@@ -24,6 +24,7 @@ TODO:
 - 将AI生成内容并入CreateArticle
 - 类存入数据库
 - 构建日志系统(不同的模块构造不同的日志，例如fetching from HN 存入hn_fetching.log?)
+- （Post-MVP）：集成多模态视觉模型（Vision Model），对文章中的关键图片进行语义描述提取，并作为上下文输入给 LLM 以生成更完整的总结。
 
 
 
@@ -38,8 +39,8 @@ TODO:
 
 ## 2. Content Extraction & AI Services (Priority High)
 
-- [ ] **Dependencies**: Add `openai` (or preferred LLM lib) and `requests`/`httpx` to `pyproject.toml`.
-- [ ] **Config**: Update `app/core/config.py` to include `JINA_API_KEY` and `OPENAI_API_KEY`.
+- [x] **Dependencies**: Add `openai` (or preferred LLM lib) and `requests`/`httpx` to `pyproject.toml`.
+- [x] **Config**: Update `app/core/config.py` to include `JINA_API_KEY` and `OPENAI_API_KEY`.
 - [ ] **Content Service**: Create `app/services/content_extractor.py` using Jina Reader API.
 - [ ] **AI Service**: Create `app/services/ai_service.py`.
     - Implement translation prompt.
@@ -56,3 +57,7 @@ TODO:
 ## 4. Scheduling (Priority Medium)
 
 - [ ] **Scheduler**: Implement a background task (using `apscheduler` or `asyncio` loop) in `main.py` to run the fetch pipeline every 30 minutes.
+
+## 5. Future Roadmap (Post-MVP)
+
+- [ ] **Multimodal Analysis**: Implement an image processing pipeline using a Vision Model (e.g., Gemini Flash/GPT-4o) to caption key images and feed them into the summarization context.

@@ -15,9 +15,13 @@ class Settings(BaseSettings):
     # concurrent limit
     fetch_concurrent_limit: int
 
-    # LLM API Keys
+    # LLM API
     openai_api_key: str
+    
+    deepseek_base_url: str = "https://api.deepseek.com/v1"
     deepseek_api_key: str
+    deepseek_model: str = "deepseek-chat"
+    deepseek_temperature: float = 1.3
 
     # Jina
     jina_reader_base: str = "https://r.jina.ai/"
