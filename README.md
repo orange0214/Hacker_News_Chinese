@@ -1,152 +1,83 @@
-# FastAPI Minimal Backend
+# Hacker News Chinese
 
-一个最小可运行的 FastAPI 后端项目，只保留基础结构，便于快速启动，后续可按需扩展。
+**Hacker News Chinese** 是一个 AI 驱动的技术资讯聚合平台。旨在打破语言障碍，通过自动化流程获取 Hacker News 热门文章，利用大语言模型（LLM）进行中文翻译与深度总结，帮助用户高效获取高质量技术资讯。
 
-## 描述
-Product Requirement Document: PRD.md
+## 核心功能
 
-TODO List: TODO.md
+- **自动聚合**: 定时抓取 Hacker News 的 Top Stories。
+- **智能解析**: 使用 Jina Reader 提取网页核心内容。
+- **AI 总结**: 基于 LLM 生成中文标题、一句话摘要及结构化深度分析（背景、要点、技术细节）。
+- **数据持久化**: 结构化存储文章元数据及分析结果至 Supabase。
+- **RAG 问答** (开发中): 支持基于文章内容的 AI 问答交互。
 
+## 技术栈
 
-## 📁 项目结构（精简版）
+- **Backend**: FastAPI (Python)
+- **Database**: Supabase (PostgreSQL + pgvector)
+- **AI Services**:
+  - LLM: OpenAI API (或其他兼容接口)
+  - Content Extraction: Jina Reader API
+- **Package Management**: Poetry
 
-```
-.
-├── app/
-│   ├── __init__.py
-│   ├── main.py                 # 应用入口（仅健康检查）
-├── .gitignore
-├── pyproject.toml
-└── README.md
-```
+## 快速开始
 
-## 🚀 快速开始
+### 1. 环境准备
 
-### 本地开发（Poetry）
+- Python 3.11+
+- Poetry
 
-#### 1. 克隆项目
+### 2. 安装依赖
 
 ```bash
 git clone <repository-url>
-cd fastapi-enterprise-backend
+cd Hacker_News_Chinese
+poetry install
 ```
 
-#### 2. 使用 Poetry 安装依赖
+### 3. 配置环境变量
 
-```bash
-pip install poetry
-poetry install --no-root
+复制 `.env.example` (如果存在) 或新建 `.env` 文件，填入以下配置：
+
+```env
+# Supabase
+SUPABASE_URL=your_supabase_url
+SUPABASE_KEY=your_supabase_anon_key
+
+# AI Services
+OPENAI_API_KEY=your_openai_api_key
+JINA_API_KEY=your_jina_api_key
+
+# App
+LOG_LEVEL=INFO
 ```
 
-#### 3. 启动应用
+### 4. 运行服务
 
 ```bash
+# 开发模式
+poetry run uvicorn app.main:app --reload
+# 或者
 poetry run dev
-```
 
-应用将在 http://localhost:8000 启动
-
-- API 文档: http://localhost:8000/api/docs
-
-### 常见问题
-
-- 如果你使用 Poetry 2.x，`poetry shell` 默认不可用。可用：
-  - `poetry env activate`（按提示激活），或
-  - 安装插件：`poetry self add poetry-plugin-shell` 后使用 `poetry shell`
-
-### 使用 Makefile (Linux/Mac)
-
-```bash
-# 查看所有可用命令
-make help
-
-# 安装依赖
-make install
-
-# 运行应用
+# 或使用 Makefile (如有)
 make run
-
-# 运行测试
-make test
-
-# 代码格式化
-make format
-
-# 代码检查
-make lint
-
-# Docker 操作
-make docker-up
-make docker-down
-make docker-logs
 ```
 
-## 📝 API 使用
+API 文档地址: `http://localhost:8000/api/docs`
 
-### 健康检查
+## 项目结构
 
-```bash
-curl -s http://localhost:8000/health
+```
+app/
+├── api/            # API 路由与依赖
+├── core/           # 核心配置 (Config, Prompts)
+├── db/             # 数据库连接 (Supabase)
+├── models/         # Pydantic 数据模型
+├── repositories/   # 数据访问层
+├── services/       # 业务逻辑 (HN Fetcher, Extraction, AI Summary)
+└── main.py         # 应用入口
 ```
 
-## 🧪 测试
+## 开发状态
 
-### 运行所有测试
-
-```bash
-pytest
-```
-
-### 运行特定测试
-
-```bash
-pytest tests/test_api/test_auth.py
-```
-
-### 生成覆盖率报告
-
-```bash
-pytest --cov=app --cov-report=html
-```
-
-## 🔐 安全性
-
-- JWT 令牌认证
-- 密码使用 bcrypt 加密
-- CORS 配置
-- 请求速率限制（可选）
-- SQL 注入防护（SQLAlchemy ORM）
-- XSS 防护
-
-**⚠️ 生产环境注意事项：**
-1. 修改 `SECRET_KEY` 为强随机字符串
-2. 使用 HTTPS
-3. 配置正确的 CORS 源
-4. 使用环境变量管理敏感信息
-5. 启用速率限制
-6. 定期更新依赖
-
-
-### 代码格式化
-
-```bash
-black app tests
-isort app tests
-```
-
-### 代码检查
-
-```bash
-flake8 app tests
-mypy app
-```
-
-## 📚 技术栈
-
-### 核心框架
-- **FastAPI** - Web 框架
-- **Uvicorn** - ASGI 服务器
-- **SQLAlchemy 2.0** - ORM
-- **Pydantic** - 数据验证
-
-> 后续可按需添加数据库、认证、日志、中间件等模块。当前仓库不包含 Docker 相关文件，若需容器化可再补充。
+当前处于 MVP 开发阶段。详细规划请参考 [PRD.md](./PRD.md) 和 [TODO.md](./TODO.md)。
