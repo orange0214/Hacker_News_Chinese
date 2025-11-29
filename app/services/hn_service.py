@@ -5,7 +5,7 @@ from app.core.config import settings
 from app.schemas.hn import HNStoryRaw
 from app.repositories.article_repository import article_repository
 
-class HackerNewsClient:
+class HNService:
     def __init__(self):
         self.top_url = settings.hn_top_url
         self.new_url = settings.hn_new_url
@@ -87,4 +87,4 @@ class HackerNewsClient:
             print(f"[HN] Successfully fetched {len(valid_stories)} valid stories.")
             return valid_stories
 
-hn_client = HackerNewsClient()
+hn_service = HNService()

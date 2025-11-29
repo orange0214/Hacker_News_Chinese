@@ -11,7 +11,18 @@ class Settings(BaseSettings):
     hn_item_url: str = "https://hacker-news.firebaseio.com/v0/item/{id}.json"
     hn_poll_interval_seconds: int
     hn_story_limit: int
-    hn_fetch_concurrent_limit: int
+
+    # concurrent limit
+    fetch_concurrent_limit: int
+
+    # LLM API Keys
+    openai_api_key: str
+    deepseek_api_key: str
+
+    # Jina
+    jina_reader_base: str = "https://r.jina.ai/"
+    jina_api_key: str
+
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
