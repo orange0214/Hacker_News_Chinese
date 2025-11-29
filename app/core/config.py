@@ -11,21 +11,22 @@ class Settings(BaseSettings):
     hn_item_url: str = "https://hacker-news.firebaseio.com/v0/item/{id}.json"
     hn_poll_interval_seconds: int
     hn_story_limit: int
+    hn_fetch_concurrent_limit: int
 
-    # concurrent limit
-    fetch_concurrent_limit: int
-
-    # LLM API
+    # OpenAI Configuration
     openai_api_key: str
-    
-    deepseek_base_url: str = "https://api.deepseek.com/v1"
+
+    # DeepSeek Configuration
+    deepseek_base_url: str
     deepseek_api_key: str
-    deepseek_model: str = "deepseek-chat"
-    deepseek_temperature: float = 1.3
+    deepseek_model: str
+    deepseek_temperature: float
+    deepseek_concurrent_limit: int
 
     # Jina
     jina_reader_base: str = "https://r.jina.ai/"
     jina_api_key: str
+    jina_fetch_concurrent_limit: int
 
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")

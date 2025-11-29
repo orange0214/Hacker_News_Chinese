@@ -15,9 +15,11 @@
   - 根据 hn_id 查询article存在
   - 添加article进入db
 
-
+#### 11/28/2025
+- 
 
 TODO:
+- 迁移poetry至uv
 - 每半个小时执行一次轮询获取内容
 - 探索使用jina取得网页信息
 - 研究AI翻译总结的高性能prompt
@@ -25,7 +27,6 @@ TODO:
 - 类存入数据库
 - 构建日志系统(不同的模块构造不同的日志，例如fetching from HN 存入hn_fetching.log?)
 - （Post-MVP）：集成多模态视觉模型（Vision Model），对文章中的关键图片进行语义描述提取，并作为上下文输入给 LLM 以生成更完整的总结。
-
 
 
 # Hacker News Chinese Implementation Plan

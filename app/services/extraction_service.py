@@ -10,13 +10,12 @@ class ExtractionService:
         if settings.jina_api_key:
             self.headers["Authorization"] = f"Bearer {settings.jina_api_key}"
         self.sem = asyncio.Semaphore(settings.fetch_concurrent_limit)
-        
-    
+
     async def extract_url(self, url: str) -> Optional[str]:
         # Extract clean Markdown content from the URL by using Jina Reader API
         if not url:
             return None
-        
+
         target_url = f"{self.jina_reader_base}{url}"
 
         try:
@@ -29,7 +28,7 @@ class ExtractionService:
         except Exception as e:
             print(f"[ExtractionService] Error extracting URL {url}: {e}")
             return None
-    
+
     async def extract_batch(self, urls: List[str]) -> List[Optional[str]]:
         # concurrently extract content from multiple URLs
         print(f"[ExtractionService] Extracting batch of {len(urls)} URLs...")
