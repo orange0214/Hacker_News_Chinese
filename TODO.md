@@ -16,15 +16,18 @@
   - 添加article进入db
 
 #### 11/28/2025
-- 
+- 并行从Jina获得markdown形式的网页信息
+- 并行将md格式的信息发送给API
 
 TODO:
+- hn service 中print输出统一化 [HN] -> [HNService]
+- 参考Jina官方文档查看是否能通过``"X-Retain-Images": "none"`` 关闭图片转化
+- markdown内图片格式的过滤（正则化）
+- 跑通pipeline
 - 迁移poetry至uv
 - 每半个小时执行一次轮询获取内容
-- 探索使用jina取得网页信息
 - 研究AI翻译总结的高性能prompt
-- 将AI生成内容并入CreateArticle
-- 类存入数据库
+- 将AI生成内容并入CreateArticle类存入数据库
 - 构建日志系统(不同的模块构造不同的日志，例如fetching from HN 存入hn_fetching.log?)
 - （Post-MVP）：集成多模态视觉模型（Vision Model），对文章中的关键图片进行语义描述提取，并作为上下文输入给 LLM 以生成更完整的总结。
 

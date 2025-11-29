@@ -6,7 +6,7 @@ from app.core.config import settings
 from app.core.prompts import Prompts
 from openai import AsyncOpenAI
 
-class SummarizerService:
+class TranslateService:
     def __init__(self):
         self.client = AsyncOpenAI(
             api_key=settings.deepseek_api_key,
@@ -51,7 +51,7 @@ class SummarizerService:
             return None
 
     # 接口args可能需要调整
-    async def translate_and_summarize_batch(self, contents: List[str]) -> List[Optional[Dict[str, Any]]]:
+    async def translate_and_summarize_batch(self, contents: Dict[str, str]) -> Dict[str, Optional[Dict[str, Any]]]:
         # concurrently translate and summarize multiple contents
         print(f"[TranslateAndSummarizerService] Translating and summarizing batch of {len(contents)} contents...")
 
@@ -65,4 +65,4 @@ class SummarizerService:
         return dict(zip(urls, results))
         
 
-summarizer_service = SummarizerService()
+translate_service = TranslateService()
