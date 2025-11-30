@@ -2,7 +2,7 @@ from token import OP
 from pydantic import BaseModel, Field, field_validator
 from datetime import datetime
 import html
-from typing import Optional
+from typing import Optional, List
 
 class HNStoryRaw(BaseModel):
     """
@@ -32,10 +32,33 @@ class HNStoryRaw(BaseModel):
             return datetime.fromtimestamp(v)
         return datetime.now()
 
-class AIAnalysisResult(BaseModel):
-    # TODO
-    pass
+class AITranslatedResult(BaseModel):
+    # LLM translated and summarized result
+    topic: str = Field(description="文章领域标签")
+    title_cn: str = Field(description="中文标题")
+    summary: str = Field(description="深度摘要")
+    key_points: List[str] = Field(description="关键要点", min_items=3, max_items=5)
+    tech_stack: List[str] = Field(default_factory=list, description="技术栈")
+    takeaway: str = Field(description="独立洞察")
+    score: int = Field(description="评分", ge=0, le=100)
+    source_trans: str = Field(description="全文精译")
 
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "topic": "Mental Model",
+                "title_cn": "单点收敛：高压搜索中的概率最优解",
+                "summary": "作者回顾了十多年前两次申请研究生失败的经历...",
+                "key_points": [
+                    "将连续失败重构为概率搜索",
+                    "成功阈值的非对称性"
+                ],
+                "tech_stack": [],
+                "takeaway": "文章基于个人叙事，缺乏实证数据支撑...",
+                "score": 20,
+                "source_trans": "正文翻译内容..."
+            }
+        }
 
 class Article(BaseModel):
     """
@@ -54,7 +77,7 @@ class Article(BaseModel):
 
     translated_title: Optional[str] = None
     summary: Optional[str] = None
-    detailed_analysis: Optional[AIAnalysisResult] = None
+    detailed_analysis: Optional[AITranslatedResult] = None
     
     class Config:
         # allow reading data from ORM objects (if we use SQLAlchemy in the future)

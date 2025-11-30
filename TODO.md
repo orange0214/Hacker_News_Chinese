@@ -19,9 +19,12 @@
 - 并行从Jina获得markdown形式的网页信息
 - 并行将md格式的信息发送给API
 
-TODO:
+#### 11/29/2025
 - hn service 中print输出统一化 [HN] -> [HNService]
-- 参考Jina官方文档查看是否能通过``"X-Retain-Images": "none"`` 关闭图片转化
+- - 参考Jina官方文档通过``"X-Retain-Images": "none"`` 关闭图片转化
+
+
+TODO:
 - markdown内图片格式的过滤（正则化）
 - 跑通pipeline
 - 迁移poetry至uv

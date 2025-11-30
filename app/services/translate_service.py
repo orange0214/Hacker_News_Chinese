@@ -1,9 +1,10 @@
 import json
 import asyncio
-from tkinter import N
 from typing import Dict, Any, Optional, List
+from pydantic import ValidationError
 from app.core.config import settings
 from app.core.prompts import Prompts
+from app.schemas.hn import AITranslatedResult
 from openai import AsyncOpenAI
 
 class TranslateService:
@@ -16,7 +17,7 @@ class TranslateService:
         self.temperature = settings.deepseek_temperature
         self.sem = asyncio.Semaphore(settings.deepseek_concurrent_limit)
 
-    async def translate_and_summarize(self, content: str) -> str:
+    async def translate_and_summarize(self, content: str) -> Optional[AITranslatedResult]:
         if not content:
             return None
         
@@ -40,18 +41,23 @@ class TranslateService:
                 if not result_text:
                     return None
                 
-                # returns a Python dict object.
-                return json.loads(result_text)
+                # Parse JSON and validate with Pydantic model
+                # This acts as a strict validation layer against LLM hallucinations
+                return AITranslatedResult.model_validate_json(result_text)
 
-        except json.JSONDecodeError as e:
+        except json.JSONDecodeError:
             print(f"[TranslateAndSummarizerService] Error: LLM returned invalid JSON")
+            return None
+        except ValidationError as e:
+            print(f"[TranslateAndSummarizerService] Validation Error: {e}")
+            # Optional: Log the raw result_text here for debugging
             return None
         except Exception as e:
             print(f"[TranslateAndSummarizerService] Error processing content: {e}")
             return None
 
     # 接口args可能需要调整
-    async def translate_and_summarize_batch(self, contents: Dict[str, str]) -> Dict[str, Optional[Dict[str, Any]]]:
+    async def translate_and_summarize_batch(self, contents: Dict[str, str]) -> Dict[str, Optional[AITranslatedResult]]:
         # concurrently translate and summarize multiple contents
         print(f"[TranslateAndSummarizerService] Translating and summarizing batch of {len(contents)} contents...")
 

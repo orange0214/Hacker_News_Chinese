@@ -43,7 +43,7 @@ class HNService:
             story = HNStoryRaw(**data)
             return story
         except Exception as e:
-            print(f"[HNStory] Error parsing story {id}: {e}")
+            print(f"[HNService] Error parsing story {id}: {e}")
             return None
     
     async def fetch_all_stories(self) -> List[HNStoryRaw]:
@@ -52,7 +52,7 @@ class HNService:
         (temporarily remove Supabase database deduplication logic)
         """
         async with aiohttp.ClientSession() as session:
-            print("[HN] Fetching all stories from Top, Best, New...")
+            print("[HNService] Fetching all stories from Top, Best, New...")
             task_ids = [
                 self._fetch_ids(session, self.top_url),
                 self._fetch_ids(session, self.best_url),
@@ -68,7 +68,7 @@ class HNService:
             all_ids_set = [id for id in all_ids_set if not article_repository.has_article(id)]
             
             ids_to_fetch = list(all_ids_set)
-            print(f"[HN] Fetching {len(ids_to_fetch)} stories from Top, Best, New...")
+            print(f"[HNService] Fetching {len(ids_to_fetch)} stories from Top, Best, New...")
 
             if not ids_to_fetch:
                 return []
@@ -80,11 +80,11 @@ class HNService:
             
             tasks_items = [fetch_with_sem(hn_id) for hn_id in ids_to_fetch]
 
-            print(f"[HN] Starting concurrent fetch for {len(tasks_items)} items...")
+            print(f"[HNService] Starting concurrent fetch for {len(tasks_items)} items...")
             stories = await asyncio.gather(*tasks_items)
             valid_stories = [s for s in stories if s is not None]
 
-            print(f"[HN] Successfully fetched {len(valid_stories)} valid stories.")
+            print(f"[HNService] Successfully fetched {len(valid_stories)} valid stories.")
             return valid_stories
 
 hn_service = HNService()
