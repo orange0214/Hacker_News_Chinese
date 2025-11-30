@@ -38,11 +38,11 @@ class TranslateService:
                 )
 
                 result_text = response.choices[0].message.content
+
                 if not result_text:
+                    print(f"[TranslateAndSummarizerService] Error: LLM returned empty result")
                     return None
                 
-                # Parse JSON and validate with Pydantic model
-                # This acts as a strict validation layer against LLM hallucinations
                 return AITranslatedResult.model_validate_json(result_text)
 
         except json.JSONDecodeError:
@@ -50,18 +50,17 @@ class TranslateService:
             return None
         except ValidationError as e:
             print(f"[TranslateAndSummarizerService] Validation Error: {e}")
-            # Optional: Log the raw result_text here for debugging
+            # TODO: Log the raw result_text here for debugging
             return None
         except Exception as e:
             print(f"[TranslateAndSummarizerService] Error processing content: {e}")
             return None
 
-    # 接口args可能需要调整
+
     async def translate_and_summarize_batch(self, contents: Dict[str, str]) -> Dict[str, Optional[AITranslatedResult]]:
         # concurrently translate and summarize multiple contents
         print(f"[TranslateAndSummarizerService] Translating and summarizing batch of {len(contents)} contents...")
 
-        # TODO: 接口args可能需要调整
         urls = list(contents.keys())
 
         tasks = [self.translate_and_summarize(contents[url]) for url in urls]

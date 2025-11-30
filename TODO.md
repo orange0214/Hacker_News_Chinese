@@ -21,14 +21,15 @@
 
 #### 11/29/2025
 - hn service 中print输出统一化 [HN] -> [HNService]
-- - 参考Jina官方文档通过``"X-Retain-Images": "none"`` 关闭图片转化
+- 参考Jina官方文档通过``"X-Retain-Images": "none"`` 关闭图片转化
+- 更新prompt
+- 在schemas/hn.py中实现AITranslatedResult类
 
 
 TODO:
-- markdown内图片格式的过滤（正则化）
-- 跑通pipeline
+- 跑通pipeline，core/news_ingestor.py
 - 迁移poetry至uv
-- 每半个小时执行一次轮询获取内容
+- 每12小时执行一次轮询获取内容
 - 研究AI翻译总结的高性能prompt
 - 将AI生成内容并入CreateArticle类存入数据库
 - 构建日志系统(不同的模块构造不同的日志，例如fetching from HN 存入hn_fetching.log?)
