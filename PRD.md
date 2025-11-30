@@ -41,8 +41,8 @@ Hacker News (HN) 是全球高质量技术信息的聚集地，但存在两个主
 |:---|:---|:---|:---|
 | B1 | **定时任务调度** | 系统每隔固定时间（如 30 分钟）自动触发数据更新流程。 | P0 |
 | B2 | **HN 数据获取** | 调用 HN API 获取 Top Stories ID 列表。**严格过滤数据类型，仅处理 `type="story"` 的条目**（剔除 `job`, `poll` 等）。在此基础上筛选 Score > 100 或 Top 30 的文章。 | P0 |
-| B3 | **内容提取/爬取** | 1. **普通 Story:** 根据 `url` 爬取网页正文，需处理基础反爬与主要文本提取 (Main Content Extraction) __使用jina__。<br>2. **Ask HN/Show HN:** 若 Story 无 `url`，直接使用 HN API 返回的 `text` 字段作为正文内容。 | P0 |
-| B4 | **LLM 处理管道** | 调用 LLM API 对提取的文本进行：<br>1. 翻译标题。<br>2. 生成一句话摘要。<br>3. 生成结构化分析 (JSON)。 | P0 |
+| B3 | **内容提取/爬取** | 1. **普通 Story:** 根据 `url` 爬取网页正文 (Jina)。<br>2. **Ask HN/Show HN:** 此类文章通常包含 `text` 字段。系统需同时保留 `url` 指向的内容（若有）和 `text` 中的作者自述。 | P0 |
+| B4 | **LLM 处理管道** | 将以下三部分信息组合作为 LLM 的输入上下文：<br>1. **Title**: 原文标题。<br>2. **Text**: HN 帖子原本的文本（HTML转纯文本）。<br>3. **Scraped Content**: 从 URL 抓取的外部网页正文。<br><br>LLM 需综合这些信息进行翻译、总结和分析。 | P0 |
 | B5 | **数据持久化** | 将原始元数据、爬取的正文、LLM 生成的结果存入 Supabase 数据库。需处理去重逻辑（基于 `hn_id`）。 | P0 |
 | B6 | **文章列表 API** | 提供 `GET /api/articles` 接口，支持分页，按时间或热度排序。 | P0 |
 | B7 | **单篇对话 API** | 提供 `POST /api/chat/article` 接口，接收 `article_id` 和 `message`，检索对应的 `raw_content` 作为 Context，流式返回 LLM 回答。 | P0 |

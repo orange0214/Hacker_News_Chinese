@@ -5,8 +5,12 @@
 ## 核心功能
 
 - **自动聚合**: 定时抓取 Hacker News 的 Top Stories。
-- **智能解析**: 使用 Jina Reader 提取网页核心内容。
-- **AI 总结**: 基于 LLM 生成中文标题、一句话摘要及结构化深度分析（背景、要点、技术细节）。
+- **智能解析**: 
+    - 使用 Jina Reader 提取网页核心内容。
+    - 完整保留 Hacker News 原贴的文本描述 (Text)，对于 Show HN / Ask HN 至关重要。
+- **AI 总结**: 
+    - 综合原文标题、原贴描述和网页正文进行分析。
+    - 生成中文标题、深度总结以及原文翻译。
 - **数据持久化**: 结构化存储文章元数据及分析结果至 Supabase。
 - **RAG 问答** (开发中): 支持基于文章内容的 AI 问答交互。
 
@@ -15,7 +19,7 @@
 - **Backend**: FastAPI (Python)
 - **Database**: Supabase (PostgreSQL + pgvector)
 - **AI Services**:
-  - LLM: OpenAI API (或其他兼容接口)
+  - LLM: Deepseek Reasoner for summarization, o-4 mini for multi-modality
   - Content Extraction: Jina Reader API
 - **Package Management**: Poetry
 

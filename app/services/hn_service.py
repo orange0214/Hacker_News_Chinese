@@ -7,7 +7,7 @@ from app.repositories.article_repository import article_repository
 
 class HNService:
     def __init__(self):
-        self.top_url = settings.hn_top_url
+        # self.top_url = settings.hn_top_url
         self.new_url = settings.hn_new_url
         self.best_url = settings.hn_best_url
         self.item_url = settings.hn_item_url
@@ -48,13 +48,13 @@ class HNService:
     
     async def fetch_all_stories(self) -> List[HNStoryRaw]:
         """
-        Get all IDs from Top/Best/New -> Memory deduplication -> Concurrent fetch details
+        Get all IDs from Best/New -> Memory deduplication -> Concurrent fetch details
         (temporarily remove Supabase database deduplication logic)
         """
         async with aiohttp.ClientSession() as session:
             print("[HNService] Fetching all stories from Top, Best, New...")
             task_ids = [
-                self._fetch_ids(session, self.top_url),
+                # self._fetch_ids(session, self.top_url),
                 self._fetch_ids(session, self.best_url),
                 self._fetch_ids(session, self.new_url)
             ]

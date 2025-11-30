@@ -36,36 +36,46 @@ TODO:
 - （Post-MVP）：集成多模态视觉模型（Vision Model），对文章中的关键图片进行语义描述提取，并作为上下文输入给 LLM 以生成更完整的总结。
 
 
-# Hacker News Chinese Implementation Plan
+#### 11/30/2025 (Current Focus)
 
-## 1. Database & Repository Layer (Priority High)
+**中文简述:**
+1. **数据模型完善**: 修改 `HNStoryRaw` 类，补充 `kids`, `descendants` 等官方 API 返回的字段。
+2. **AI 提示词优化**: 更新 System Prompt，使其能处理这种混合输入，并同时关注原贴描述和网页正文。
+3. 修改 translate_service.py
+4. **数据整合逻辑**: 调整 `NewsIngestor`，在发送给 AI 之前，将 HN 原贴的 `title`、`text` (如有) 和 Jina 抓取的网页正文合并。
 
-- [x] **Schema Setup**: Create `articles` table in Supabase matching PRD Section 4.
-- [x] **Repository Implementation**: Create `app/repositories/article_repository.py`.
-    - `exists(hn_id: int) -> bool`: Check if article already exists (Deduplication).
-    - `create(article: Article) -> Article`: Save processed article to DB.
+---
 
-## 2. Content Extraction & AI Services (Priority High)
+### Detailed Tasks
 
-- [x] **Dependencies**: Add `openai` (or preferred LLM lib) and `requests`/`httpx` to `pyproject.toml`.
-- [x] **Config**: Update `app/core/config.py` to include `JINA_API_KEY` and `OPENAI_API_KEY`.
-- [ ] **Content Service**: Create `app/services/content_extractor.py` using Jina Reader API.
-- [ ] **AI Service**: Create `app/services/ai_service.py`.
-    - Implement translation prompt.
-    - Implement summarization/analysis prompt (JSON output).
+#### 1. Schema Update (`app/schemas/hn.py`)
+- [ ] Update `HNStoryRaw` class to include all fields from the official HN API:
+    - `kids`: `List[int]` (optional)
+    - `descendants`: `int` (optional)
+    - `parts`: `List[int]` (optional)
+    - `poll`: `int` (optional)
+    - `deleted`: `bool` (optional)
+    - `dead`: `bool` (optional)
+    - `parent`: `int` (optional)
 
-## 3. Pipeline Integration (Priority Medium)
+#### 2. Pipeline / Ingestor Update (`app/core/news_ingestor.py`)
+- [ ] Modify `run` method to construct a composite input for the AI Service.
+    - **Logic**:
+        ```python
+        combined_text = f"""
+        Title: {story.title}
+        Original Text: {story.text or "N/A"}
+        ---
+        Scraped Content:
+        {extracted_content}
+        """
+        ```
+    - Ensure "Ask HN" stories (no URL) are handled correctly by passing `story.text` as the primary content.
 
-- [ ] **Update HNService**:
-    - Integrate `ArticleRepository` to filter out existing stories.
-    - Integrate `ContentService` to fetch body text.
-    - Integrate `AIService` to process content.
-    - Save final result to DB.
+#### 3. AI Service Refactor (`app/services/translate_service.py` & `prompts.py`)
+- [ ] Update `Prompts.SUMMARIZE_SYSTEM` to instruct the LLM to:
+    - Consider both the user's original description (often contains key context for "Show HN") and the linked article content.
+    - Handle cases where one source might be empty.
 
-## 4. Scheduling (Priority Medium)
-
-- [ ] **Scheduler**: Implement a background task (using `apscheduler` or `asyncio` loop) in `main.py` to run the fetch pipeline every 30 minutes.
-
-## 5. Future Roadmap (Post-MVP)
-
-- [ ] **Multimodal Analysis**: Implement an image processing pipeline using a Vision Model (e.g., Gemini Flash/GPT-4o) to caption key images and feed them into the summarization context.
+#### 4. Documentation
+- [ ] Verify `PRD.md` and `README.md` reflect this "Hybrid Input" strategy.
