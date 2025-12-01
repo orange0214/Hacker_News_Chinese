@@ -4,14 +4,14 @@ from app.services.hn_service import hn_service
 from app.services.extraction_service import extraction_service
 from app.services.translate_service import translate_service
 from app.repositories.article_repository import article_repository
-from app.schemas.hn import HNStoryRaw, AITranslatedResult, Article
+from app.schemas.hn import HNRaw, AITranslatedResult, Article
 
-class NewsInteger:
+class NewsIngestor:
     async def run(self):
         print("[NewsIngestor] Starting news ingestion pipeline...")
 
         # 1. Fetch all stories from HN
-        stories: List[HNStoryRaw] = await hn_service.fetch_all_stories()
+        stories: List[HNRaw] = await hn_service.fetch_all_stories()
         if not stories:
             print("[NewsIngestor] No new stories to process.")
             return

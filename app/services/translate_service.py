@@ -17,11 +17,28 @@ class TranslateService:
         self.temperature = settings.deepseek_temperature
         self.sem = asyncio.Semaphore(settings.deepseek_concurrent_limit)
 
-    async def translate_and_summarize(self, content: str) -> Optional[AITranslatedResult]:
-        if not content:
+    async def translate_and_summarize(
+        self, 
+        title: str, 
+        hn_text: Optional[str]=None, 
+        scraped_content: Optional[str]=None
+        ) -> Optional[AITranslatedResult]:
+
+        if not title and not hn_text and not scraped_content:
             return None
         
-        truncated_content = content[:100000]
+        safe_title = title or "N/A"
+        safe_hn_text = hn_text or "N/A"
+        safe_scraped_content = scraped_content[:100000] if scraped_content else "N/A"
+
+        combined_input = f"""
+        Title: {safe_title}
+        Original Post Description: 
+        {safe_hn_text}
+        ---
+        Scraped Article Content:
+        {safe_scraped_content}
+        """
 
         system_prompt = Prompts.SUMMARIZE_SYSTEM_Chinese
 
@@ -31,7 +48,7 @@ class TranslateService:
                     model = self.model,
                     messages = [
                         {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": f"文章内容: \n\n{truncated_content}"},
+                        {"role": "user", "content": combined_input},
                     ],
                     response_format={"type": "json_object"},
                     temperature=self.temperature,
@@ -56,18 +73,26 @@ class TranslateService:
             print(f"[TranslateAndSummarizerService] Error processing content: {e}")
             return None
 
+    async def translate_and_summarize_batch(
+        self, 
+        inputs: Dict[str, Dict[str, Any]]
+        ) -> Dict[str, Optional[AITranslatedResult]]:
+        # concurrently translate and summarize multiple inputs
+        print(f"[TranslateAndSummarizerService] Translating and summarizing batch of {len(inputs)} inputs...")
 
-    async def translate_and_summarize_batch(self, contents: Dict[str, str]) -> Dict[str, Optional[AITranslatedResult]]:
-        # concurrently translate and summarize multiple contents
-        print(f"[TranslateAndSummarizerService] Translating and summarizing batch of {len(contents)} contents...")
+        ids = list(inputs.keys())
 
-        urls = list(contents.keys())
-
-        tasks = [self.translate_and_summarize(contents[url]) for url in urls]
+        tasks = [
+            self.translate_and_summarize(
+                title = input[i].get("title", ""),
+                hn_text = input[i].get("hn_text"),
+                scraped_content = input[i].get("scraped_content"),
+                ) for i in ids
+            ]
 
         results = await asyncio.gather(*tasks)
 
-        return dict(zip(urls, results))
+        return dict(zip(ids, results))
         
 
 translate_service = TranslateService()

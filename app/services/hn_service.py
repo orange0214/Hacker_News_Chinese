@@ -2,7 +2,7 @@ import asyncio
 import aiohttp
 from typing import Any, Dict, List, Optional, Set
 from app.core.config import settings
-from app.schemas.hn import HNStoryRaw
+from app.schemas.hn import HNRaw
 from app.repositories.article_repository import article_repository
 
 class HNService:
@@ -40,13 +40,13 @@ class HNService:
             return None
 
         try:
-            story = HNStoryRaw(**data)
+            story = HNRaw(**data)
             return story
         except Exception as e:
             print(f"[HNService] Error parsing story {id}: {e}")
             return None
     
-    async def fetch_all_stories(self) -> List[HNStoryRaw]:
+    async def fetch_all_stories(self) -> List[HNRaw]:
         """
         Get all IDs from Best/New -> Memory deduplication -> Concurrent fetch details
         (temporarily remove Supabase database deduplication logic)

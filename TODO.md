@@ -24,7 +24,15 @@
 - 参考Jina官方文档通过``"X-Retain-Images": "none"`` 关闭图片转化
 - 更新prompt
 - 在schemas/hn.py中实现AITranslatedResult类
+  
+#### 11/30/2025
+- 发现问题：AI分析结果中没有加入title与作者写的内容
 
+#### 12/01/2025
+- 修改 `HNRaw` 类，补充 `kids`, `descendants` 等官方 API 返回的字段。
+- 修改 `Articel`类，让其符合更改的 `HNRaw`类
+- 修改 `schema.sql` 表
+- 
 
 TODO:
 - 跑通pipeline，core/news_ingestor.py
@@ -36,20 +44,18 @@ TODO:
 - （Post-MVP）：集成多模态视觉模型（Vision Model），对文章中的关键图片进行语义描述提取，并作为上下文输入给 LLM 以生成更完整的总结。
 
 
-#### 11/30/2025 (Current Focus)
 
 **中文简述:**
-1. **数据模型完善**: 修改 `HNStoryRaw` 类，补充 `kids`, `descendants` 等官方 API 返回的字段。
-2. **AI 提示词优化**: 更新 System Prompt，使其能处理这种混合输入，并同时关注原贴描述和网页正文。
-3. 修改 translate_service.py
-4. **数据整合逻辑**: 调整 `NewsIngestor`，在发送给 AI 之前，将 HN 原贴的 `title`、`text` (如有) 和 Jina 抓取的网页正文合并。
+1. **AI 提示词优化**: 更新 System Prompt，使其能处理这种混合输入，并同时关注原贴描述和网页正文。
+2. 修改 translate_service.py
+3. **数据整合逻辑**: 调整 `NewsIngestor`，在发送给 AI 之前，将 HN 原贴的 `title`、`text` (如有) 和 Jina 抓取的网页正文合并。
 
 ---
 
 ### Detailed Tasks
 
 #### 1. Schema Update (`app/schemas/hn.py`)
-- [ ] Update `HNStoryRaw` class to include all fields from the official HN API:
+- [ ] Update `HNRaw` class to include all fields from the official HN API:
     - `kids`: `List[int]` (optional)
     - `descendants`: `int` (optional)
     - `parts`: `List[int]` (optional)
