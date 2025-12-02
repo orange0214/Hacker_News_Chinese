@@ -11,7 +11,17 @@ async def get_hn_demo():
         stories = await hn_service.fetch_all_stories()
         urls = [story.original_url for story in stories]
         contents = await extraction_service.extract_batch(urls)
-        summaries = await translate_service.translate_and_summarize_batch(contents)
+        
+        # Construct the input dictionary expected by translate_service
+        translation_inputs = {}
+        for story in stories:
+            translation_inputs[story.hn_id] = {
+                "title": story.original_title,
+                "hn_text": story.original_text,
+                "scraped_content": contents.get(story.original_url)
+            }
+
+        summaries = await translate_service.translate_and_summarize_batch(translation_inputs)
         return {"stories": stories, "contents": contents, "summaries": summaries}
 
     except Exception as exc:

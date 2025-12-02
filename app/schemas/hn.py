@@ -34,7 +34,7 @@ class HNRaw(BaseModel):
     deleted: Optional[bool] = Field(default=False, description="true if the item is deleted")
     dead: Optional[bool] = Field(default=False, description="true if the item is dead")
 
-    @field_validator("hn_text_content", "original_title", mode="before")
+    @field_validator("original_text", "original_title", mode="before")
     @classmethod
     def unescape_html(cls, v):
         if v is None:

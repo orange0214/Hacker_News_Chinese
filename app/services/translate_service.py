@@ -84,9 +84,9 @@ class TranslateService:
 
         tasks = [
             self.translate_and_summarize(
-                title = input[i].get("title", ""),
-                hn_text = input[i].get("hn_text"),
-                scraped_content = input[i].get("scraped_content"),
+                title = inputs[i].get("title", ""),
+                hn_text = inputs[i].get("hn_text"),
+                scraped_content = inputs[i].get("scraped_content"),
                 ) for i in ids
             ]
 
