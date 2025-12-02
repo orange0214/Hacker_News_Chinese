@@ -33,14 +33,16 @@
 - 修改 `Articel`类，让其符合更改的 `HNRaw`类
 - 修改 `schema.sql` 表
 - 实现  `news_ingestor.py` (未测试)
+- 参考DDD进行部分重构：将Article等class移动至models/
+- 解决问题：AI分析结果中没有加入title与作者写的内容-更新prompt与更改相关业务逻辑代码
 
 TODO:
-- 跑通pipeline，core/news_ingestor.py
+- 跑通news_ingestor.py
 - 迁移poetry至uv
-- 每12小时执行一次轮询获取内容
-- 研究AI翻译总结的高性能prompt
-- 将AI生成内容并入CreateArticle类存入数据库
 - 构建日志系统(不同的模块构造不同的日志，例如fetching from HN 存入hn_fetching.log?)
+- 每12小时执行一次轮询获取内容
+- 研究AI翻译总结的高性能prompt（prompt training）
+- RAG
 - （Post-MVP）：集成多模态视觉模型（Vision Model），对文章中的关键图片进行语义描述提取，并作为上下文输入给 LLM 以生成更完整的总结。
 
 
