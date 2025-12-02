@@ -1,6 +1,6 @@
 import asyncio
 import httpx
-from typing import Optional, List
+from typing import Optional, List, Dict
 from app.core.config import settings
 
 class ExtractionService:
@@ -39,7 +39,7 @@ class ExtractionService:
             print(f"[ExtractionService] Error extracting URL {url}: {e}")
             return None
 
-    async def extract_batch(self, urls: List[str]) -> List[Optional[str]]:
+    async def extract_batch(self, urls: List[str]) -> Optional[Dict[str, Optional[str]]]:
         # concurrently extract content from multiple URLs
         print(f"[ExtractionService] Extracting batch of {len(urls)} URLs...")
 

@@ -20,8 +20,8 @@ class HNRaw(BaseModel):
     # Optional fields (based on type and state)
     original_title: Optional[str] = Field(default=None, alias="title", description="The title of the story, poll or job. HTML.")
     original_url: Optional[str] = Field(default=None, alias="url", description="The URL of the story")
-    hn_text_content: Optional[str] = Field(default=None, alias="text", description="The comment, story or poll text. HTML.")
-    score: Optional[int] = Field(default=0, description="The story's score, or the votes for a pollopt")
+    original_text: Optional[str] = Field(default=None, alias="text", description="The comment, story or poll text. HTML.")
+    score: Optional[int] = Field(default=-1, description="The story's score, or the votes for a pollopt")
     
     # Relationship fields
     kids: Optional[List[int]] = Field(default=None, description="The ids of the item's comments")
@@ -89,12 +89,21 @@ class Article(BaseModel):
     hn_id: int
     type: str
     by: Optional[str] = Field(default=None, description="The username of the item's author")
+    posted_at: datetime
+    
     original_title: str
     original_url: Optional[str]
+    original_text: Optional[str]
     score: int
-    posted_at: datetime
+
     kids: Optional[List[int]]
     parent: Optional[int]
+    poll: Optional[int]
+    parts: Optional[List[int]]
+    descendants: Optional[int]
+
+    deleted: Optional[bool]
+    dead: Optional[bool]
 
     raw_content: str
     image_urls: Optional[List[str]]

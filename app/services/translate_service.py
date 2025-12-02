@@ -75,8 +75,8 @@ class TranslateService:
 
     async def translate_and_summarize_batch(
         self, 
-        inputs: Dict[str, Dict[str, Any]]
-        ) -> Dict[str, Optional[AITranslatedResult]]:
+        inputs: Dict[int, Dict[str, Any]]
+        ) -> Dict[int, Optional[AITranslatedResult]]:
         # concurrently translate and summarize multiple inputs
         print(f"[TranslateAndSummarizerService] Translating and summarizing batch of {len(inputs)} inputs...")
 
