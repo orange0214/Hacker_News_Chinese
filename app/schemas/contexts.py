@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
-from app.schemas.hn import HNRaw, AITranslatedResult, Article
+from app.schemas.hn import HNRaw
+from app.models.article import Article, AITranslatedResult
 
 @dataclass
 class StoryContext:
@@ -10,7 +11,7 @@ class StoryContext:
 
     @property
     def has_valid_content(self) -> bool:
-        return bool(self.story.original_title or self.story.hn_text_content)
+        return bool(self.story.original_title or self.story.original_text)
     
     def to_article(self) -> Article:
         if not self.ai_result:

@@ -32,7 +32,7 @@
 - 修改 `HNRaw` 类，补充 `kids`, `descendants` 等官方 API 返回的字段。
 - 修改 `Articel`类，让其符合更改的 `HNRaw`类
 - 修改 `schema.sql` 表
-- 
+- 实现  `news_ingestor.py` (未测试)
 
 TODO:
 - 跑通pipeline，core/news_ingestor.py

@@ -1,10 +1,10 @@
-import asyncio
-from typing import List, Optional, Dict, Any
+from typing import List, Dict
 from app.services.hn_service import hn_service
 from app.services.extraction_service import extraction_service
 from app.services.translate_service import translate_service
 from app.repositories.article_repository import article_repository
-from app.schemas.hn import HNRaw, AITranslatedResult, Article
+from app.schemas.hn import HNRaw
+from app.models.article import Article
 from app.schemas.contexts import StoryContext
 
 class NewsIngestor:
@@ -62,6 +62,3 @@ class NewsIngestor:
         print(f"[NewsIngestor] Successfully saved {saved_count} articles.")
 
 news_ingestor = NewsIngestor()
-
-        
-        

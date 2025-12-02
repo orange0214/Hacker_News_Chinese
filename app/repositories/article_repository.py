@@ -1,5 +1,5 @@
 from app.db.supabase import get_supabase
-from app.schemas.hn import Article
+from app.models.article import Article
 
 class ArticleRepository:
     def __init__(self):

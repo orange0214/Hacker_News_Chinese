@@ -4,7 +4,7 @@ from typing import Dict, Any, Optional, List
 from pydantic import ValidationError
 from app.core.config import settings
 from app.core.prompts import Prompts
-from app.schemas.hn import AITranslatedResult
+from app.models.article import AITranslatedResult
 from openai import AsyncOpenAI
 
 class TranslateService:
