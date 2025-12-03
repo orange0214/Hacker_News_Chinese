@@ -7,31 +7,28 @@ class ExtractionService:
     def __init__(self):
         self.jina_reader_base = settings.jina_reader_base
         self.headers = {
-            # without images
             "X-Retain-Images": "none" 
         }
         if settings.jina_api_key:
             self.headers["Authorization"] = f"Bearer {settings.jina_api_key}"
+        
+        # Use a single client session
+        self.client = httpx.AsyncClient(timeout=60.0)
         self.sem = asyncio.Semaphore(settings.jina_fetch_concurrent_limit)
 
     async def extract_url(self, url: str) -> Optional[str]:
-        # Extract clean Markdown content from the URL by using Jina Reader API
         if not url:
             return None
 
         target_url = f"{self.jina_reader_base}{url}"
 
         try:
-            async  with self.sem:
-                async with httpx.AsyncClient(timeout=30.0) as client:
-                    response = await client.get(target_url, headers=self.headers)
-                    # raise an exception if the response status code is not 200-299
-                    # response.raise_for_status()
-                    if response.status_code != 200:
-                        print(f"[ExtractionService] [Jina Error] Status: {response.status_code}")
-                        print(f"[ExtractionService] [Jina Error] Details: {response.text[:200]}") # 打印 Jina 返回的具体报错
-                        return None
-                    return response.text
+            async with self.sem:
+                response = await self.client.get(target_url, headers=self.headers)
+                if response.status_code != 200:
+                    print(f"[ExtractionService] [Jina Error] Status: {response.status_code}")
+                    return None
+                return response.text
         except httpx.TimeoutException:
             print(f"[ExtractionService] [Timeout] Extracting {url} took too long (>60s).")
             return None

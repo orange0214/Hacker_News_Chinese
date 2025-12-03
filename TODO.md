@@ -39,8 +39,15 @@
 #### 12/02/2025
 - 迁移poetry至uv
 
+#### 12/03/2025
+- 测试 `news_ingestor.py` 并实现 Swagger 触发接口 (`POST /api/news/ingest`)
+- BugFix: 从 Poetry 迁移至 uv 后，默认安装的最新版 `httpx` (0.28.1) / `httpcore` (1.0.9) 导致在 Windows 环境下连接 DeepSeek API 频繁出现 `RemoteProtocolError` (Peer closed connection)。
+  - 尝试方案：降级 HTTP/1.1、禁用连接池 (Keep-Alive=0) 均未能根治（DeepSeek 服务端对连接关闭处理较激进）。
+  - 最终方案：切换 LLM Provider 至 **Gemini** (配合 OpenAI SDK)，连接稳定，数据摄入流程跑通。
+
+
+
 TODO:
-- 跑通news_ingestor.py
 - 构建日志系统(不同的模块构造不同的日志，例如fetching from HN 存入hn_fetching.log?)
 - 每12小时执行一次轮询获取内容
 - 研究AI翻译总结的高性能prompt（prompt training）

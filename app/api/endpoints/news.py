@@ -2,8 +2,20 @@ from fastapi import APIRouter, HTTPException, Security
 from app.services.hn_service import hn_service
 from app.services.extraction_service import extraction_service
 from app.services.translate_service import translate_service
+from app.core.news_ingestor import news_ingestor
 
 router = APIRouter(prefix="/news", tags=["news"])
+
+@router.post("/ingest")
+async def trigger_ingestion_task():
+    """
+    手动触发新闻抓取与分析流程 (Task 1 测试用)
+    """
+    try:
+        await news_ingestor.run()
+        return {"message": "Ingestion task triggered successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Ingestion failed: {str(e)}")
 
 @router.get("/hn/demo")
 async def get_hn_demo():

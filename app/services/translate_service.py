@@ -1,6 +1,6 @@
 import json
 import asyncio
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional
 from pydantic import ValidationError
 from app.core.config import settings
 from app.core.prompts import Prompts
@@ -10,12 +10,13 @@ from openai import AsyncOpenAI
 class TranslateService:
     def __init__(self):
         self.client = AsyncOpenAI(
-            api_key=settings.deepseek_api_key,
-            base_url=settings.deepseek_base_url
+            api_key=settings.gemini_api_key,
+            base_url=settings.gemini_base_url,
+
         )
-        self.model = settings.deepseek_model
-        self.temperature = settings.deepseek_temperature
-        self.sem = asyncio.Semaphore(settings.deepseek_concurrent_limit)
+        self.model = settings.gemini_model
+        self.temperature = settings.gemini_temperature
+        self.sem = asyncio.Semaphore(settings.gemini_concurrent_limit)
 
     async def translate_and_summarize(
         self, 

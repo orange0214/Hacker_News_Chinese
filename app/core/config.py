@@ -16,6 +16,13 @@ class Settings(BaseSettings):
     # OpenAI Configuration
     openai_api_key: str
 
+    # Gemini Configuration
+    gemini_base_url: str
+    gemini_api_key: str
+    gemini_model: str
+    gemini_temperature: float
+    gemini_concurrent_limit: int
+
     # DeepSeek Configuration
     deepseek_base_url: str
     deepseek_api_key: str
