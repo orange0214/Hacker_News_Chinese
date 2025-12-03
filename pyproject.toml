@@ -3,7 +3,7 @@ name = "hacker-news-chinese"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "aiohappyeyeballs==2.6.1 ; python_full_version >= '3.11' and python_full_version < '4'",
     "aiohttp==3.13.2 ; python_full_version >= '3.11' and python_full_version < '4'",
