@@ -60,8 +60,10 @@ Hacker News (HN) 是全球高质量技术信息的聚集地，但存在两个主
 
 ### 3.3 AI 提示词策略 (Prompt Strategy)
 
-* **Summarizer Agent:** 输出需强制为 JSON 格式，以便前端结构化展示。
-    * 字段示例: `title_cn`, `summary`, `key_points` (Array), `tech_stack_mentioned`.
+* **Summarizer Agent:**
+    * **角色设定:** 资深架构师/Hacker News 中文社区首席观察员，采用“双层摘要法”与“金句保留”策略。
+    * **输出格式:** 严格 JSON 格式。
+    * **核心字段:** `topic` (领域), `title_cn` (中文标题), `summary` (深度摘要), `key_points` (关键思维模型), `takeaway` (犀利洞察), `score` (硬核评分), `tech_stack` (技术栈), `original_text_trans`/`url_content_trans` (原文精译)。
 * **Chat Agent:** System Prompt 需包含：“你是一个技术助手，请仅依据以下提供的文章内容回答用户问题...”
 
 ---
