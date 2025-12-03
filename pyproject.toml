@@ -1,30 +1,110 @@
-[tool.poetry]
-name = "Hacker_News_Chinese"
-version = "1.0.0"
-description = "Hacker News Chinese"
-authors = ["Hacker News Chinese <hackernews@example.com>"]
+[project]
+name = "hacker-news-chinese"
+version = "0.1.0"
+description = "Add your description here"
 readme = "README.md"
-
-packages = [
-    { include = "app" }
+requires-python = ">=3.10"
+dependencies = [
+    "aiohappyeyeballs==2.6.1 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "aiohttp==3.13.2 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "aiosignal==1.4.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "aiosqlite==0.21.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "annotated-types==0.7.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "anyio==3.7.1 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "attrs==25.4.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "banks==2.2.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "certifi==2025.10.5 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "cffi==2.0.0 ; python_full_version >= '3.11' and python_full_version < '4' and platform_python_implementation != 'PyPy'",
+    "charset-normalizer==3.4.4 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "click==8.3.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "colorama==0.4.6 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "cryptography==46.0.3 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "dataclasses-json==0.6.7 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "deprecated==1.2.18 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "deprecation==2.1.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "dirtyjson==1.0.8 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "distro==1.9.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "dnspython==2.8.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "email-validator==2.3.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "fastapi==0.104.1 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "filetype==1.2.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "flupy==1.2.3 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "frozenlist==1.8.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "fsspec==2025.10.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "greenlet==3.2.4 ; (python_full_version >= '3.11' and python_full_version < '4' and platform_machine == 'AMD64') or (python_full_version >= '3.11' and python_full_version < '4' and platform_machine == 'WIN32') or (python_full_version >= '3.11' and python_full_version < '4' and platform_machine == 'aarch64') or (python_full_version >= '3.11' and python_full_version < '4' and platform_machine == 'amd64') or (python_full_version >= '3.11' and python_full_version < '4' and platform_machine == 'ppc64le') or (python_full_version >= '3.11' and python_full_version < '4' and platform_machine == 'win32') or (python_full_version >= '3.11' and python_full_version < '4' and platform_machine == 'x86_64')",
+    "griffe==1.15.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "h11==0.16.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "h2==4.3.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "hpack==4.1.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "httpcore==1.0.9 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "httptools==0.7.1 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "httpx==0.28.1 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "hyperframe==6.1.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "idna==3.11 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "jinja2==3.1.6 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "jiter==0.12.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "joblib==1.5.2 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "llama-index-core==0.14.8 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "llama-index-instrumentation==0.4.2 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "llama-index-vector-stores-supabase==0.4.1 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "llama-index-workflows==2.11.5 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "markupsafe==3.0.3 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "marshmallow==3.26.1 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "multidict==6.7.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "mypy-extensions==1.1.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "nest-asyncio==1.6.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "networkx==3.6 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "nltk==3.9.2 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "numpy==2.3.5 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "openai==2.8.1 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "packaging==25.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "pgvector==0.3.6 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "pillow==12.0.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "platformdirs==4.5.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "postgrest==2.24.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "propcache==0.4.1 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "psycopg2-binary==2.9.11 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "pycparser==2.23 ; python_full_version >= '3.11' and python_full_version < '4' and implementation_name != 'PyPy' and platform_python_implementation != 'PyPy'",
+    "pydantic==2.12.4 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "pydantic-core==2.41.5 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "pydantic-settings==2.12.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "pyjwt==2.10.1 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "python-dotenv==1.2.1 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "pyyaml==6.0.3 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "realtime==2.24.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "regex==2025.11.3 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "requests==2.32.5 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "setuptools==80.9.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "sniffio==1.3.1 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "sqlalchemy==2.0.44 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "starlette==0.27.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "storage3==2.24.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "strenum==0.4.15 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "supabase==2.24.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "supabase-auth==2.24.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "supabase-functions==2.24.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "tenacity==9.1.2 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "tiktoken==0.12.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "tqdm==4.67.1 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "typing-extensions==4.15.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "typing-inspect==0.9.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "typing-inspection==0.4.2 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "urllib3==2.5.0 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "uvicorn==0.24.0.post1 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "uvloop==0.22.1 ; python_full_version >= '3.11' and python_full_version < '4' and platform_python_implementation != 'PyPy' and sys_platform != 'cygwin' and sys_platform != 'win32'",
+    "vecs==0.4.5 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "watchfiles==1.1.1 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "websockets==15.0.1 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "wrapt==1.17.3 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "yarl==1.22.0 ; python_full_version >= '3.11' and python_full_version < '4'",
 ]
 
-[tool.poetry.scripts]
+[project.scripts]
 dev = "app.main:main"
 
-[tool.poetry.dependencies]
-python = "^3.11"
-fastapi = "^0.104.1"
-uvicorn = {extras = ["standard"], version = "^0.24.0"}
-supabase = "^2.24.0"
-llama-index-vector-stores-supabase = "^0.4.1"
-pydantic-settings = "^2.12.0"
-pydantic = {extras = ["email"], version = "^2.12.4"}
-aiohttp = "^3.13.2"
-openai = "^2.8.1"
-httpx = "^0.28.1"
-
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
+[tool.hatch.build.targets.wheel]
+packages = ["app"]

@@ -21,21 +21,21 @@
 - **AI Services**:
   - LLM: Deepseek Reasoner for summarization, o-4 mini for multi-modality
   - Content Extraction: Jina Reader API
-- **Package Management**: Poetry
+- **Package Management**: uv
 
 ## 快速开始
 
 ### 1. 环境准备
 
-- Python 3.11+
-- Poetry
+- Python 3.12
+- uv
 
 ### 2. 安装依赖
 
 ```bash
 git clone <repository-url>
 cd Hacker_News_Chinese
-poetry install
+uv sync
 ```
 
 ### 3. 配置环境变量
@@ -59,9 +59,9 @@ LOG_LEVEL=INFO
 
 ```bash
 # 开发模式
-poetry run uvicorn app.main:app --reload
+uv run uvicorn app.main:app --reload
 # 或者
-poetry run dev
+uv run dev
 
 # 或使用 Makefile (如有)
 make run

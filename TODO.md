@@ -36,9 +36,11 @@
 - 参考DDD进行部分重构：将Article等class移动至models/
 - 解决问题：AI分析结果中没有加入title与作者写的内容-更新prompt与更改相关业务逻辑代码
 
+#### 12/02/2025
+- 迁移poetry至uv
+
 TODO:
 - 跑通news_ingestor.py
-- 迁移poetry至uv
 - 构建日志系统(不同的模块构造不同的日志，例如fetching from HN 存入hn_fetching.log?)
 - 每12小时执行一次轮询获取内容
 - 研究AI翻译总结的高性能prompt（prompt training）
@@ -46,18 +48,12 @@ TODO:
 - （Post-MVP）：集成多模态视觉模型（Vision Model），对文章中的关键图片进行语义描述提取，并作为上下文输入给 LLM 以生成更完整的总结。
 
 
-
-**中文简述:**
-1. **AI 提示词优化**: 更新 System Prompt，使其能处理这种混合输入，并同时关注原贴描述和网页正文。
-2. 修改 translate_service.py
-3. **数据整合逻辑**: 调整 `NewsIngestor`，在发送给 AI 之前，将 HN 原贴的 `title`、`text` (如有) 和 Jina 抓取的网页正文合并。
-
 ---
 
 ### Detailed Tasks
 
 #### 1. Schema Update (`app/schemas/hn.py`)
-- [ ] Update `HNRaw` class to include all fields from the official HN API:
+- [x] Update `HNRaw` class to include all fields from the official HN API:
     - `kids`: `List[int]` (optional)
     - `descendants`: `int` (optional)
     - `parts`: `List[int]` (optional)
@@ -67,7 +63,7 @@ TODO:
     - `parent`: `int` (optional)
 
 #### 2. Pipeline / Ingestor Update (`app/core/news_ingestor.py`)
-- [ ] Modify `run` method to construct a composite input for the AI Service.
+- [x] Modify `run` method to construct a composite input for the AI Service.
     - **Logic**:
         ```python
         combined_text = f"""
@@ -81,7 +77,7 @@ TODO:
     - Ensure "Ask HN" stories (no URL) are handled correctly by passing `story.text` as the primary content.
 
 #### 3. AI Service Refactor (`app/services/translate_service.py` & `prompts.py`)
-- [ ] Update `Prompts.SUMMARIZE_SYSTEM` to instruct the LLM to:
+- [x] Update `Prompts.SUMMARIZE_SYSTEM` to instruct the LLM to:
     - Consider both the user's original description (often contains key context for "Show HN") and the linked article content.
     - Handle cases where one source might be empty.
 

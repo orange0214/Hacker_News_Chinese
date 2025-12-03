@@ -8,6 +8,5 @@ logs/
 *.log
 .vscode/
 .idea/
-poetry.lock
 .DS_Store
 Thumbs.db
