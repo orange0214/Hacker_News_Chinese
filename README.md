@@ -19,9 +19,10 @@
 - **Backend**: FastAPI (Python)
 - **Database**: Supabase (PostgreSQL + pgvector)
 - **AI Services**:
-  - LLM: Deepseek Reasoner for summarization, o-4 mini for multi-modality
+  - LLM: Gemini (via OpenAI SDK) for summarization
   - Content Extraction: Jina Reader API
 - **Package Management**: uv
+- **Observability**: Loguru (AOP-based logging)
 
 ## 快速开始
 

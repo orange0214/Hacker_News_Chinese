@@ -48,7 +48,12 @@
 
 
 TODO:
-- 构建日志系统(不同的模块构造不同的日志，例如fetching from HN 存入hn_fetching.log?)
+- [ ] **Observability Infrastructure (日志系统)**:
+  - 集成 **Loguru** 日志组件。
+  - 实现日志分流：
+    - `pipeline.log`: 记录业务核心流程 (NewsIngestor, HNService， ExtractionService, TranslateService) 的状态流转与统计。
+    - `error.log`: 捕获系统级异常与堆栈信息。
+  - 配合 AOP (装饰器) 统一管理异常与监控。
 - 每12小时执行一次轮询获取内容
 - 研究AI翻译总结的高性能prompt（prompt training）
 - RAG

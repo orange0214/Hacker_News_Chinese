@@ -16,6 +16,9 @@ class ExtractionService:
         self.client = httpx.AsyncClient(timeout=60.0)
         self.sem = asyncio.Semaphore(settings.jina_fetch_concurrent_limit)
 
+    async def close(self):
+        await self.client.aclose()
+
     async def extract_url(self, url: str) -> Optional[str]:
         if not url:
             return None
