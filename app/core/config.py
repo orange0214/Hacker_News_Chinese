@@ -1,6 +1,10 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
+    # Logging Configuration
+    log_level: str
+
+    # Supabase Configuration
     supabase_url: str
     supabase_api_key: str
 

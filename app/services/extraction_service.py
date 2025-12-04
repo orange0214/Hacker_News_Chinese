@@ -12,12 +12,7 @@ class ExtractionService:
         if settings.jina_api_key:
             self.headers["Authorization"] = f"Bearer {settings.jina_api_key}"
         
-        # Use a single client session
-        self.client = httpx.AsyncClient(timeout=60.0)
         self.sem = asyncio.Semaphore(settings.jina_fetch_concurrent_limit)
-
-    async def close(self):
-        await self.client.aclose()
 
     async def extract_url(self, url: str) -> Optional[str]:
         if not url:
@@ -27,11 +22,13 @@ class ExtractionService:
 
         try:
             async with self.sem:
-                response = await self.client.get(target_url, headers=self.headers)
-                if response.status_code != 200:
-                    print(f"[ExtractionService] [Jina Error] Status: {response.status_code}")
-                    return None
-                return response.text
+                # Use a fresh client for each request to avoid connection pooling issues
+                async with httpx.AsyncClient(timeout=60.0) as client:
+                    response = await client.get(target_url, headers=self.headers)
+                    if response.status_code != 200:
+                        print(f"[ExtractionService] [Jina Error] Status: {response.status_code}")
+                        return None
+                    return response.text
         except httpx.TimeoutException:
             print(f"[ExtractionService] [Timeout] Extracting {url} took too long (>60s).")
             return None

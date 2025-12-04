@@ -44,6 +44,9 @@
 - BugFix: 从 Poetry 迁移至 uv 后，默认安装的最新版 `httpx` (0.28.1) / `httpcore` (1.0.9) 导致在 Windows 环境下连接 DeepSeek API 频繁出现 `RemoteProtocolError` (Peer closed connection)。
   - 尝试方案：降级 HTTP/1.1、禁用连接池 (Keep-Alive=0) 均未能根治（DeepSeek 服务端对连接关闭处理较激进）。
   - 最终方案：切换 LLM Provider 至 **Gemini** (配合 OpenAI SDK)，连接稳定，数据摄入流程跑通。
+- logger.py 初始化
+  - 尚未完成AOP decorators
+  - 尚未修改服务将logger与AOP引入
 
 
 

@@ -18,7 +18,6 @@ async def lifespan(app: FastAPI):
     finally:
         # Shutdown
         app.state.supabase = None
-        await extraction_service.close()
 
 app = FastAPI(
     title="Hacker News Chinese", 
