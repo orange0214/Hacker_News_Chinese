@@ -52,7 +52,7 @@ class NewsIngestor:
         
         # 4. Save to Database
         saved_count = 0
-        for ctx in contexts:
+        for ctx in valid_contexts:
             if ctx.ai_result:
                 try:
                     article: Article = ctx.to_article()
@@ -62,6 +62,6 @@ class NewsIngestor:
                     logger.error(f"[NewsIngestor] Failed to save story {ctx.story.hn_id}: {e}")
 
         logger.info(f"Successfully saved {saved_count} articles.")
-        return {"status": "success", "total_scanned": len(contexts), "saved_count": saved_count}
+        return valid_contexts
 
 news_ingestor = NewsIngestor()

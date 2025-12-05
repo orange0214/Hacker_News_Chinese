@@ -33,7 +33,7 @@ def setup_logging():
         rotation="10 MB",
         retention="10 days",
         compression="zip",
-        format="{time:YYYY-MM-DD HH:mm:ss} | {level: <7} | {extra[step]: <20} | {message}",
+        format="{time:YYYY-MM-DD HH:mm:ss} | {level: <7} | {extra[step]: <25} | {message}",
         level="INFO"
     )
 

@@ -4,7 +4,7 @@ from fastapi import FastAPI
 
 from app.api.router import api_router
 from app.db.supabase import init_supabase
-from app.services.extraction_service import extraction_service
+from app.core.scheduler import start_scheduler, stop_scheduler
 
 
 @asynccontextmanager
@@ -12,10 +12,11 @@ async def lifespan(app: FastAPI):
     # Startup
     supabase = init_supabase()
     app.state.supabase = supabase
-    
+    await start_scheduler()
     try:
         yield
     finally:
+        await stop_scheduler()
         # Shutdown
         app.state.supabase = None
 

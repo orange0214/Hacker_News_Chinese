@@ -4,6 +4,9 @@ class Settings(BaseSettings):
     # Logging Configuration
     log_level: str
 
+    # Scheduler Configuration
+    scheduler_interval_hours: int
+
     # Supabase Configuration
     supabase_url: str
     supabase_api_key: str
@@ -35,7 +38,7 @@ class Settings(BaseSettings):
     deepseek_concurrent_limit: int
 
     # Jina
-    jina_reader_base: str = "https://r.jina.ai/"
+    jina_reader_base: str
     jina_api_key: str
     jina_fetch_concurrent_limit: int
 

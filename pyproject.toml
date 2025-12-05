@@ -11,6 +11,7 @@ dependencies = [
     "aiosqlite==0.21.0 ; python_full_version >= '3.11' and python_full_version < '4'",
     "annotated-types==0.7.0 ; python_full_version >= '3.11' and python_full_version < '4'",
     "anyio==3.7.1 ; python_full_version >= '3.11' and python_full_version < '4'",
+    "apscheduler>=3.11.1",
     "attrs==25.4.0 ; python_full_version >= '3.11' and python_full_version < '4'",
     "banks==2.2.0 ; python_full_version >= '3.11' and python_full_version < '4'",
     "certifi==2025.10.5 ; python_full_version >= '3.11' and python_full_version < '4'",
