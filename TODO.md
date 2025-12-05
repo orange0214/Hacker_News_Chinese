@@ -49,27 +49,13 @@
   - 尚未修改服务将logger与AOP引入
   
 #### 12/04/2025
-- 完成AOP修饰器并在3个services以及pipeline中调用
-- 
+- 完成AOP修饰器并在3个services以及pipeline中调用，定义error.log与news_ingestor.log
+- 引入 **APScheduler** (`AsyncIOScheduler`) 完成定时任务调度功能
 
+#### 12/05/2025
 
 
 TODO:
-
-- [ ] **Feature: 定时任务调度 (Scheduler)**
-  - **分析**: 针对 MVP 阶段且为单实例部署，**APScheduler** (`AsyncIOScheduler`) 是最佳选择。它轻量、原生支持 `asyncio`，且无需额外的消息队列组件（如 Redis），维护成本低。相比之下，Celery 过于厚重，适合分布式场景。
-  - **计划**:
-    1. 添加依赖: `apscheduler`
-    2. 创建模块 `app/core/scheduler.py`:
-       - 初始化 `AsyncIOScheduler`。
-       - 编写 `start_scheduler` 和 `stop_scheduler` 函数。
-    3. 集成至 `app/main.py`:
-       - 在 `lifespan` 上下文中启动和关闭调度器。
-    4. 配置任务:
-       - 目标: `app.core.news_ingestor.news_ingestor.run`
-       - 周期: 每 12 小时 (`interval`, `hours=12`)。
-
-- [ ] 每12小时执行一次轮询获取内容 (已纳入上述 Scheduler 计划)
 - 研究AI翻译总结的高性能prompt（prompt training）
 - RAG
 - （Post-MVP）：集成多模态视觉模型（Vision Model），对文章中的关键图片进行语义描述提取，并作为上下文输入给 LLM 以生成更完整的总结。
