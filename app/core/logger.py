@@ -6,7 +6,7 @@ from app.core.config import settings
 LOG_DIR = Path("logs")
 LOG_DIR.mkdir(exist_ok=True)
 
-PIPELINE_LOG_FILE = LOG_DIR / "pipeline.log"
+PIPELINE_LOG_FILE = LOG_DIR / "news_ingestor.log"
 ERROR_LOG_FILE = LOG_DIR / "error.log"
 
 def setup_logging():

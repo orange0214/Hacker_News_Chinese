@@ -2,6 +2,8 @@ import asyncio
 import httpx
 from typing import Optional, List, Dict
 from app.core.config import settings
+from app.core.decorators import monitor_news_ingestor
+from app.core.logger import logger
 
 class ExtractionService:
     def __init__(self):
@@ -26,24 +28,20 @@ class ExtractionService:
                 async with httpx.AsyncClient(timeout=60.0) as client:
                     response = await client.get(target_url, headers=self.headers)
                     if response.status_code != 200:
-                        print(f"[ExtractionService] [Jina Error] Status: {response.status_code}")
+                        logger.error(f"[ExtractionService] [Jina Error] Status: {response.status_code} for URL: {url}")
                         return None
                     return response.text
         except httpx.TimeoutException:
-            print(f"[ExtractionService] [Timeout] Extracting {url} took too long (>60s).")
+            logger.error(f"[ExtractionService] [Timeout] Extracting {url} took too long (>60s).")
             return None
         except Exception as e:
-            print(f"[ExtractionService] Error extracting URL {url}: {e}")
+            logger.error(f"[ExtractionService] Error extracting URL {url}: {str(e)}")
             return None
 
+    @monitor_news_ingestor(step_name="Extract-Jina")
     async def extract_batch(self, urls: List[str]) -> Optional[Dict[str, Optional[str]]]:
-        # concurrently extract content from multiple URLs
-        print(f"[ExtractionService] Extracting batch of {len(urls)} URLs...")
-
         tasks = [self.extract_url(url) for url in urls]
-
         results = await asyncio.gather(*tasks)
-
         return dict(zip(urls, results))
 
 extraction_service = ExtractionService()

@@ -4,6 +4,7 @@ from typing import Any, Dict, List, Optional, Set
 from app.core.config import settings
 from app.schemas.hn import HNRaw
 from app.repositories.article_repository import article_repository
+from app.core.decorators import monitor_news_ingestor
 
 class HNService:
     def __init__(self):
@@ -46,13 +47,9 @@ class HNService:
             print(f"[HNService] Error parsing story {id}: {e}")
             return None
     
+    @monitor_news_ingestor(step_name="Fetch-HN")
     async def fetch_all_stories(self) -> List[HNRaw]:
-        """
-        Get all IDs from Best/New -> Memory deduplication -> Concurrent fetch details
-        (temporarily remove Supabase database deduplication logic)
-        """
         async with aiohttp.ClientSession() as session:
-            print("[HNService] Fetching all stories from Top, Best, New...")
             task_ids = [
                 # self._fetch_ids(session, self.top_url),
                 self._fetch_ids(session, self.best_url),
@@ -68,7 +65,6 @@ class HNService:
             all_ids_set = [id for id in all_ids_set if not article_repository.has_article(id)]
             
             ids_to_fetch = list(all_ids_set)
-            print(f"[HNService] Fetching {len(ids_to_fetch)} stories from Top, Best, New...")
 
             if not ids_to_fetch:
                 return []
@@ -80,11 +76,9 @@ class HNService:
             
             tasks_items = [fetch_with_sem(hn_id) for hn_id in ids_to_fetch]
 
-            print(f"[HNService] Starting concurrent fetch for {len(tasks_items)} items...")
             stories = await asyncio.gather(*tasks_items)
             valid_stories = [s for s in stories if s is not None]
 
-            print(f"[HNService] Successfully fetched {len(valid_stories)} valid stories.")
             return valid_stories
 
 hn_service = HNService()

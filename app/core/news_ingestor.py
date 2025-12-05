@@ -6,19 +6,21 @@ from app.repositories.article_repository import article_repository
 from app.schemas.hn import HNRaw
 from app.models.article import Article
 from app.schemas.contexts import StoryContext
+from app.core.decorators import monitor_news_ingestor
+from app.core.logger import logger
 
 class NewsIngestor:
+    @monitor_news_ingestor(step_name="Ingestion-Pipeline-Main")
     async def run(self):
-        print("[NewsIngestor] Starting news ingestion pipeline...")
 
         # 1. Fetch all stories from HN
         raw_stories: List[HNRaw] = await hn_service.fetch_all_stories()
         if not raw_stories:
-            print("[NewsIngestor] No new stories.")
-            return
+            logger.info("No new stories.")
+            return {"status": "success", "total_scanned": 0, "saved_count": 0}
         
         contexts = [StoryContext(story=story) for story in raw_stories]
-        print(f"[NewsIngestor] Processing {len(contexts)} stories...")
+        logger.info(f"Processing {len(contexts)} stories...")
 
         # 2. Batch Extraction
         url_contexts = [ctx for ctx in contexts if ctx.story.original_url]
@@ -57,8 +59,9 @@ class NewsIngestor:
                     article_repository.add_article(article)
                     saved_count += 1
                 except Exception as e:
-                    print(f"[NewsIngestor] Failed to save story {ctx.story.hn_id}: {e}")
+                    logger.error(f"[NewsIngestor] Failed to save story {ctx.story.hn_id}: {e}")
 
-        print(f"[NewsIngestor] Successfully saved {saved_count} articles.")
+        logger.info(f"Successfully saved {saved_count} articles.")
+        return {"status": "success", "total_scanned": len(contexts), "saved_count": saved_count}
 
 news_ingestor = NewsIngestor()

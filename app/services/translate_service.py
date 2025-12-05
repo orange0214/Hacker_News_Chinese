@@ -6,6 +6,8 @@ from app.core.config import settings
 from app.core.prompts import Prompts
 from app.models.article import AITranslatedResult
 from openai import AsyncOpenAI
+from app.core.decorators import monitor_news_ingestor
+from app.core.logger import logger
 
 class TranslateService:
     def __init__(self):
@@ -58,28 +60,27 @@ class TranslateService:
                 result_text = response.choices[0].message.content
 
                 if not result_text:
-                    print(f"[TranslateAndSummarizerService] Error: LLM returned empty result")
+                    logger.error(f"[TranslateAndSummarizerService] Error: LLM returned empty result")
                     return None
                 
                 return AITranslatedResult.model_validate_json(result_text)
 
         except json.JSONDecodeError:
-            print(f"[TranslateAndSummarizerService] Error: LLM returned invalid JSON")
+            logger.error(f"[TranslateAndSummarizerService] Error: LLM returned invalid JSON")
             return None
         except ValidationError as e:
-            print(f"[TranslateAndSummarizerService] Validation Error: {e}")
-            # TODO: Log the raw result_text here for debugging
+            logger.error(f"[TranslateAndSummarizerService] Validation Error: {str(e)}")
             return None
         except Exception as e:
-            print(f"[TranslateAndSummarizerService] Error processing content: {e}")
+            logger.error(f"[TranslateAndSummarizerService] Error processing content: {str(e)}")
             return None
 
+    @monitor_news_ingestor(step_name="Translate-Summarize")
     async def translate_and_summarize_batch(
         self, 
         inputs: Dict[int, Dict[str, Any]]
         ) -> Dict[int, Optional[AITranslatedResult]]:
         # concurrently translate and summarize multiple inputs
-        print(f"[TranslateAndSummarizerService] Translating and summarizing batch of {len(inputs)} inputs...")
 
         ids = list(inputs.keys())
 
