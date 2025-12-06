@@ -46,7 +46,7 @@ class Prompts:
         -   不要复述摘要。
         -   指出局限性、隐含假设或反直觉价值。
         -   语气犀利，像代码 Review 一样。
-    7.  "score": (Integer, 0-100) 基于**正文内容**的硬核度评分。
+    7.  "ai_score": (Integer, 0-100) 基于**正文内容**的硬核度评分。
         -   **注意**：评分仅基于**所有内容（Title, Original Post Description, Scraped Article Content）**的信息密度。
         -   原文是鸡汤/故事，即使你分析得再深刻，分数也不能超过 25 分。
         -   原文是硬核代码/论文，分数才能上 80+。

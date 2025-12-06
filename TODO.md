@@ -56,12 +56,15 @@
 
 
 TODO:
+- supabase中清理rows(ai分析的score改为ai_score),并测试ingestor功能
 - Articles 接口规划
   - [ ] API 定义: `GET /api/articles`
   - [ ] 请求参数 (Query Params):
     - `page`: 页码 (int, default: 1)
     - `size`: 每页数量 (int, default: 20)
-    - `sort_by`: 排序字段 (enum: `posted_at`, `score`, default: `posted_at`)
+    - `sort_by`: 排序字段 (enum: `posted_at`, `score`, `ai_score`, default: `posted_at`)
+      - `score`: Hacker News 原始热度
+      - `ai_score`: AI 内容质量评分
     - `order`: 排序方向 (enum: `desc`, `asc`, default: `desc`)
   - [ ] 响应结构 (Response):
     - `items`: 文章列表 (List[ArticleSchema])
@@ -81,7 +84,7 @@ TODO:
         - `key_points`: 关键点列表 (List[str])
         - `tech_stack`: 涉及技术栈 (List[str])
         - `takeaway`: 核心洞察/Takeaway (str)
-        - `score`: AI 评分 (int)
+        - `ai_score`: AI 评分 (int)
       - 统计信息:
         - `descendants`: 评论数 (int)
       - 状态:

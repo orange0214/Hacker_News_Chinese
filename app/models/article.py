@@ -10,7 +10,7 @@ class AITranslatedResult(BaseModel):
     key_points: List[str] = Field(description="Key points", min_items=3, max_items=5)
     tech_stack: List[str] = Field(default_factory=list, description="Tech stack")
     takeaway: str = Field(description="Independent insight")
-    score: int = Field(description="Score", ge=0, le=100)
+    ai_score: int = Field(description="AI score", ge=0, le=100)
     original_text_trans: Optional[str] = Field(description="Original text translation")
     url_content_trans: str = Field(description="URL Full-text translation")
 
