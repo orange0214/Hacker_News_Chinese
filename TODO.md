@@ -56,6 +56,56 @@
 
 
 TODO:
+- Articles 接口规划
+  - [ ] API 定义: `GET /api/articles`
+  - [ ] 请求参数 (Query Params):
+    - `page`: 页码 (int, default: 1)
+    - `size`: 每页数量 (int, default: 20)
+    - `sort_by`: 排序字段 (enum: `posted_at`, `score`, default: `posted_at`)
+    - `order`: 排序方向 (enum: `desc`, `asc`, default: `desc`)
+  - [ ] 响应结构 (Response):
+    - `items`: 文章列表 (List[ArticleSchema])
+      - 基础信息:
+        - `id`: 数据库 ID (int)
+        - `hn_id`: Hacker News ID (int)
+        - `original_title`: 原文标题 (str)
+        - `original_url`: 原文链接 (str)
+        - `posted_at`: 发布时间 (datetime)
+        - `score`: HN 分数 (int)
+        - `by`: 作者 (str)
+        - `type`: 文章类型 (str)
+      - AI 分析内容 (detailed_analysis):
+        - `title_cn`: 中文标题 (str)
+        - `summary`: 深度摘要 (str)
+        - `topic`: 文章主题/领域 (str)
+        - `key_points`: 关键点列表 (List[str])
+        - `tech_stack`: 涉及技术栈 (List[str])
+        - `takeaway`: 核心洞察/Takeaway (str)
+        - `score`: AI 评分 (int)
+      - 统计信息:
+        - `descendants`: 评论数 (int)
+      - 状态:
+        - `deleted`: 是否已删除 (bool)
+        - `dead`: 是否已失效 (bool)
+    - `total`: 总记录数 (int)
+    - `page`: 当前页码 (int)
+    - `size`: 当前每页数量 (int)
+    - `total_pages`: 总页数 (int)
+  - [ ] 业务逻辑:
+    - 校验参数
+    - 构建 Supabase 查询 (分页 + 排序)
+    - 转换数据模型为 Pydantic Schema
+    - 错误处理 (500, etc.)
+
+- 代码重构 (DDD 优化)
+  - [ ] 移动 `app/schemas/contexts.py` -> `app/services/contexts.py` (Pipeline 上下文)
+  - [ ] 拆分 `app/schemas/hn.py`:
+    - 移动 `AITranslatedResult` -> `app/models/value_objects.py` (领域值对象)
+    - 保留 `HNRaw` 在 `app/schemas/external.py` (外部 DTO)
+  - [ ] 重组 `app/schemas/`:
+    - 创建 `app/schemas/responses.py`: 存放对外 API 响应对象 (如 `ArticleResponse`)
+    - 创建 `app/schemas/requests.py`: 存放 API 请求参数对象 (如 `ArticleFilter`)
+
 - 研究AI翻译总结的高性能prompt（prompt training）
 - RAG
 - （Post-MVP）：集成多模态视觉模型（Vision Model），对文章中的关键图片进行语义描述提取，并作为上下文输入给 LLM 以生成更完整的总结。
