@@ -30,7 +30,7 @@
 
 #### 12/01/2025
 - 修改 `HNRaw` 类，补充 `kids`, `descendants` 等官方 API 返回的字段。
-- 修改 `Articel`类，让其符合更改的 `HNRaw`类
+- 修改 `Article`类，让其符合更改的 `HNRaw`类
 - 修改 `schema.sql` 表
 - 实现  `news_ingestor.py` (未测试)
 - 参考DDD进行部分重构：将Article等class移动至models/
@@ -55,57 +55,19 @@
 #### 12/05/2025
 - supabase中清理rows(ai分析的score改为ai_score),并测试ingestor功能
 - debug in ingestor pipeline
+
+#### 12/06/2025
 - 重构DDD
   - 移动 `app/schemas/contexts.py` -> `app/services/contexts/story_contexts.py` (Pipeline 上下文)
   - 保留 `HNRaw` 在 `app/schemas/external/hn.py` (外部 DTO)
 - 构造 schemas/article.py (只定义了request model)
 
+#### 12/07/2025
+- 完成 articles 接口 （`GET /api/articles`）
+- 修改README.md
+
 
 TODO:
-- Articles 接口规划
-  - [ ] API 定义: `GET /api/articles`
-  - [ ] 请求参数 (Query Params):
-    - `page`: 页码 (int, default: 1)
-    - `size`: 每页数量 (int, default: 20)
-    - `sort_by`: 排序字段 (enum: `posted_at`, `score`, `ai_score`, default: `posted_at`)
-      - `score`: Hacker News 原始热度
-      - `ai_score`: AI 内容质量评分
-    - `order`: 排序方向 (enum: `desc`, `asc`, default: `desc`)
-  - [ ] 响应结构 (Response):
-    - `items`: 文章列表 (List[ArticleSchema])
-      - 基础信息:
-        - `id`: 数据库 ID (int)
-        - `hn_id`: Hacker News ID (int)
-        - `original_title`: 原文标题 (str)
-        - `original_url`: 原文链接 (str)
-        - `posted_at`: 发布时间 (datetime)
-        - `score`: HN 分数 (int)
-        - `by`: 作者 (str)
-        - `type`: 文章类型 (str)
-      - AI 分析内容 (detailed_analysis):
-        - `title_cn`: 中文标题 (str)
-        - `summary`: 深度摘要 (str)
-        - `topic`: 文章主题/领域 (str)
-        - `key_points`: 关键点列表 (List[str])
-        - `tech_stack`: 涉及技术栈 (List[str])
-        - `takeaway`: 核心洞察/Takeaway (str)
-        - `ai_score`: AI 评分 (int)
-      - 统计信息:
-        - `descendants`: 评论数 (int)
-      - 状态:
-        - `deleted`: 是否已删除 (bool)
-        - `dead`: 是否已失效 (bool)
-    - `total`: 总记录数 (int)
-    - `page`: 当前页码 (int)
-    - `size`: 当前每页数量 (int)
-    - `total_pages`: 总页数 (int)
-  - [ ] 业务逻辑:
-    - 校验参数
-    - 构建 Supabase 查询 (分页 + 排序)
-    - 转换数据模型为 Pydantic Schema
-    - 错误处理 (500, etc.)
-
-
 - 研究AI翻译总结的高性能prompt（prompt training）
 - RAG
 - （Post-MVP）：集成多模态视觉模型（Vision Model），对文章中的关键图片进行语义描述提取，并作为上下文输入给 LLM 以生成更完整的总结。
