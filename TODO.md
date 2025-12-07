@@ -53,10 +53,15 @@
 - 引入 **APScheduler** (`AsyncIOScheduler`) 完成定时任务调度功能
 
 #### 12/05/2025
+- supabase中清理rows(ai分析的score改为ai_score),并测试ingestor功能
+- debug in ingestor pipeline
+- 重构DDD
+  - 移动 `app/schemas/contexts.py` -> `app/services/contexts/story_contexts.py` (Pipeline 上下文)
+  - 保留 `HNRaw` 在 `app/schemas/external/hn.py` (外部 DTO)
+- 构造 schemas/article.py (只定义了request model)
 
 
 TODO:
-- supabase中清理rows(ai分析的score改为ai_score),并测试ingestor功能
 - Articles 接口规划
   - [ ] API 定义: `GET /api/articles`
   - [ ] 请求参数 (Query Params):
@@ -100,14 +105,6 @@ TODO:
     - 转换数据模型为 Pydantic Schema
     - 错误处理 (500, etc.)
 
-- 代码重构 (DDD 优化)
-  - [ ] 移动 `app/schemas/contexts.py` -> `app/services/contexts.py` (Pipeline 上下文)
-  - [ ] 拆分 `app/schemas/hn.py`:
-    - 移动 `AITranslatedResult` -> `app/models/value_objects.py` (领域值对象)
-    - 保留 `HNRaw` 在 `app/schemas/external.py` (外部 DTO)
-  - [ ] 重组 `app/schemas/`:
-    - 创建 `app/schemas/responses.py`: 存放对外 API 响应对象 (如 `ArticleResponse`)
-    - 创建 `app/schemas/requests.py`: 存放 API 请求参数对象 (如 `ArticleFilter`)
 
 - 研究AI翻译总结的高性能prompt（prompt training）
 - RAG

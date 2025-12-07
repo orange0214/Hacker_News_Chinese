@@ -2,7 +2,7 @@ import asyncio
 import aiohttp
 from typing import Any, Dict, List, Optional, Set
 from app.core.config import settings
-from app.schemas.hn import HNRaw
+from app.schemas.external.hn import HNRaw
 from app.repositories.article_repository import article_repository
 from app.core.decorators import monitor_news_ingestor
 

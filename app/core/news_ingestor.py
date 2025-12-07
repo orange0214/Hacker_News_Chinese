@@ -3,24 +3,23 @@ from app.services.hn_service import hn_service
 from app.services.extraction_service import extraction_service
 from app.services.translate_service import translate_service
 from app.repositories.article_repository import article_repository
-from app.schemas.hn import HNRaw
 from app.models.article import Article
-from app.schemas.contexts import StoryContext
+from app.services.contexts.story_contexts import StoryContext
 from app.core.decorators import monitor_news_ingestor
 from app.core.logger import logger
 
 class NewsIngestor:
     @monitor_news_ingestor(step_name="Ingestion-Pipeline-Main")
-    async def run(self):
+    async def run(self) -> List[StoryContext]:
 
         # 1. Fetch all stories from HN
-        raw_stories: List[HNRaw] = await hn_service.fetch_all_stories()
+        raw_stories = await hn_service.fetch_all_stories()
         if not raw_stories:
-            logger.info("No new stories.")
-            return {"status": "success", "total_scanned": 0, "saved_count": 0}
+            logger.info("[NewsIngestor] No new stories.")
+            return []
         
         contexts = [StoryContext(story=story) for story in raw_stories]
-        logger.info(f"Processing {len(contexts)} stories...")
+        logger.info(f"[NewsIngestor] Processing {len(contexts)} stories...")
 
         # 2. Batch Extraction
         url_contexts = [ctx for ctx in contexts if ctx.story.original_url]

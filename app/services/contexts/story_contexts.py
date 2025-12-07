@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import Optional
-from app.schemas.hn import HNRaw
+from app.schemas.external.hn import HNRaw
 from app.models.article import Article, AITranslatedResult
 
 @dataclass
