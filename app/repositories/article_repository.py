@@ -1,7 +1,8 @@
-from typing import Optional
+from typing import Optional, Tuple, List
 from app.db.supabase import get_supabase
 from app.models.article import Article
 from app.core.logger import logger
+from app.schemas.article import SortField, SortOrder
 
 class ArticleRepository:
     def __init__(self):
@@ -32,5 +33,26 @@ class ArticleRepository:
         except Exception as e:
             logger.error(f"Error adding article: {e}")
             return None
+    
+    def get_articles(self, skip: int, limit: int, sort_by: SortField, order: SortOrder) -> Tuple[List[dict], int]:
+        try:
+            # use count = "exact" to get the total number of articles
+            query = self.supabase.table(self.table_name).select("*", count="exact")
+
+            is_desc = (order == SortOrder.DESC)
+            if sort_by == SortField.AI_SCORE:
+                query = query.order("detailed_analysis->ai_score", desc=is_desc)
+            elif sort_by == SortField.SCORE:
+                query = query.order("score", desc=is_desc)
+            elif sort_by == SortField.POSTED_AT:
+                query = query.order("posted_at", desc=is_desc)
+
+            query = query.range(skip, skip + limit - 1)
+            result = query.execute()
+            return (result.data, result.count if result.count is not None else 0)
+            
+        except Exception as e:
+            logger.error(f"Error getting articles: {e}")
+            return ([], 0)
 
 article_repository = ArticleRepository()
