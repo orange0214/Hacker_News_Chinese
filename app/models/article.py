@@ -11,7 +11,7 @@ class AITranslatedResult(BaseModel):
     tech_stack: List[str] = Field(default_factory=list, description="Tech stack")
     takeaway: str = Field(description="Independent insight")
     ai_score: int = Field(description="AI score", ge=0, le=100)
-    original_text_trans: Optional[str] = Field(description="Original text translation")
+    original_text_trans: Optional[str] = Field(default=None, description="Original text translation")
     url_content_trans: Optional[str] = Field(default=None, description="URL Full-text translation")
 
 class CommentAnalysis(BaseModel):
