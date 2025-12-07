@@ -35,3 +35,13 @@ create table public.articles (
 create index articles_score_idx on public.articles (score desc);
 create index articles_posted_at_idx on public.articles (posted_at desc);
 create index articles_hn_id_idx on public.articles (hn_id);
+
+-- Enable Row Level Security (RLS)
+alter table public.articles enable row level security;
+
+-- Create Policy: Allow public read access
+create policy "Allow public read access"
+on public.articles
+for select
+to anon, authenticated
+using (true);
