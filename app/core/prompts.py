@@ -53,8 +53,9 @@ class Prompts:
     8.  "original_text_trans": (String | null) **HN原帖描述的翻译**。
         -   对应输入的 `Original Post Description`。
         -   如果输入内容为空，此字段必须输出 `null`。如果输入内容不为空，则必须输出翻译结果。
-    9.  "url_content_trans": (String) **抓取正文的净版精译**。
+    9.  "url_content_trans": (String | null) **抓取正文的净版精译**。
         -   对应输入的 `Scraped Article Content`。
+        -   如果输入内容为空或为 "N/A"，此字段必须输出 `null`。如果输入内容不为空，则必须输出翻译结果。
         -   **严格执行清洗**：剔除导航、广告等。
         -   保留 Markdown 结构。
         -   确保关键处的 `中文译文 (Original Text)` 标注清晰。

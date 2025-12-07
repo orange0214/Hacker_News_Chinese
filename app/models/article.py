@@ -12,7 +12,7 @@ class AITranslatedResult(BaseModel):
     takeaway: str = Field(description="Independent insight")
     ai_score: int = Field(description="AI score", ge=0, le=100)
     original_text_trans: Optional[str] = Field(description="Original text translation")
-    url_content_trans: str = Field(description="URL Full-text translation")
+    url_content_trans: Optional[str] = Field(default=None, description="URL Full-text translation")
 
 class CommentAnalysis(BaseModel):
     comment_trans: str = Field(description="Full-text translation of the comment")

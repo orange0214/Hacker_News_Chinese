@@ -56,8 +56,11 @@ class NewsIngestor:
             if ctx.ai_result:
                 try:
                     article: Article = ctx.to_article()
-                    article_repository.add_article(article)
-                    saved_count += 1
+                    result = article_repository.add_article(article)
+                    if result:
+                        saved_count += 1
+                    else:
+                        logger.error(f"[NewsIngestor] Failed to save story {ctx.story.hn_id}: Insert returned None")
                 except Exception as e:
                     logger.error(f"[NewsIngestor] Failed to save story {ctx.story.hn_id}: {e}")
 
