@@ -66,8 +66,13 @@
 - 完成 articles 接口 （`GET /api/articles`）
 - 修改README.md
 
+#### 12/09/2025
+- 向量数据库相关代码配置（未输入supabase）
+- langchain配置
+
 
 TODO:
+- 实现B7单篇对话API (POST /api/chat/article)，包含Schema(支持history)、Context获取(Service)、LangChain Prompt构建(含Memory)、流式接口(FastAPI StreamingResponse)
 - 研究AI翻译总结的高性能prompt（prompt training）
 - RAG
 - （Post-MVP）：集成多模态视觉模型（Vision Model），对文章中的关键图片进行语义描述提取，并作为上下文输入给 LLM 以生成更完整的总结。
