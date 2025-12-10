@@ -1,12 +1,36 @@
-__pycache__/
-*.py[cod]
-.env
-.venv/
-env/
-venv/
-logs/
-*.log
-.vscode/
-.idea/
+# General
 .DS_Store
 Thumbs.db
+*.log
+
+# Editor / IDE
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+.idea/
+*.swp
+*.swo
+
+# Environment Variables
+.env
+.env.*
+!.env.example
+
+# Python (Global ignore to keep root clean)
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+.mypy_cache/
+.pytest_cache/
+.uv/
+
+# Node / Frontend (Global ignore)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
