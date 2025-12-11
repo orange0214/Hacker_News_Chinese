@@ -70,6 +70,10 @@
 - 向量数据库相关代码配置（未输入supabase）
 - langchain配置
 
+#### 12/10/2025
+- supabase中配置向量数据库与相似度函数
+- 
+
 
 TODO:
 - 实现B7单篇对话API (POST /api/chat/article)，包含Schema(支持history)、Context获取(Service)、LangChain Prompt构建(含Memory)、流式接口(FastAPI StreamingResponse)
