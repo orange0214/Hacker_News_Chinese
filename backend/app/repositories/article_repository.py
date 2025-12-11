@@ -58,13 +58,13 @@ class ArticleRepository:
     def get_article_by_id(self, article_id: int) -> Optional[Article]:
         try:
             result = self.supabase.table(self.table_name)\
-                .select("original_title, original_text, raw_content, detailed_analysis")\
+                .select("hn_id, type, by, posted_at, original_title, original_url, original_text, score, raw_content, detailed_analysis")\
                 .eq("id", article_id)\
                 .single()\
                 .execute()
             return Article.model_validate(result.data) if result.data else None
         except Exception as e:
-            logger.error(f"Error getting article by id {id}: {e}")
+            logger.error(f"Error getting article by article_id {article_id}: {e}")
             return None
 
 article_repository = ArticleRepository()

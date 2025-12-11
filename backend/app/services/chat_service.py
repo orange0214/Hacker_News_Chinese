@@ -24,7 +24,7 @@ prompt_template = ChatPromptTemplate.from_messages([
 ])
 
 class ChatService:
-    async def get_article_context(self, article_id: int) -> str:
+    async def get_article_context(self, article_id: int) -> dict:
         # get article context from database
         data = article_repository.get_article_by_id(article_id)
         if not data:
@@ -34,7 +34,7 @@ class ChatService:
             "original_title": data.original_title,
             "original_text": data.original_text or "(No original text)",
             "raw_content": data.raw_content or "(No raw content)",
-            "detailed_analysis": data.detailed_analysis.model_dump_json() or "(No detailed analysis)",
+            "detailed_analysis": data.detailed_analysis.model_dump_json() if data.detailed_analysis else "(No detailed analysis)",
         }
     
     def _convert_history(self, history: List[ChatMessage]) -> List[BaseMessage]:
