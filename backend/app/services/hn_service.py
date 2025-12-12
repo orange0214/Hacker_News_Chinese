@@ -57,14 +57,12 @@ class HNService:
             ]
             lists_of_ids = await asyncio.gather(*task_ids)
 
-            all_ids_set: Set[int] = set()
+            all_ids_set: Set[int] = set[int]()
             for ids in lists_of_ids:
                 all_ids_set.update(ids)
 
             # prevent duplicate in db
-            all_ids_set = [id for id in all_ids_set if not article_repository.has_article(id)]
-            
-            ids_to_fetch = list(all_ids_set)
+            ids_to_fetch = [id for id in all_ids_set if not article_repository.has_article(id)]
 
             if not ids_to_fetch:
                 return []

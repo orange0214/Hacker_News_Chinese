@@ -74,9 +74,19 @@
 - supabase中配置向量数据库与相似度函数
 - 实现chat_service (未测试)
 
+#### 12/11/2025
+- 实现chat_service + router
+- 初始化RAG
 
 TODO:
-- 实现B7单篇对话API (POST /api/chat/article)，包含Schema(支持history)、Context获取(Service)、LangChain Prompt构建(含Memory)、流式接口(FastAPI StreamingResponse)
-- 研究AI翻译总结的高性能prompt（prompt training）
 - RAG
+- 提取模型到config，env
+- 第三方登录 （github, google）
+- 前端
+- chat recommendation
+- RAG chat recommendation
+- 研究AI翻译总结的高性能prompt（prompt training）
+- 用户收藏实现
+- 评论
+- 扫描更新文章
 - （Post-MVP）：集成多模态视觉模型（Vision Model），对文章中的关键图片进行语义描述提取，并作为上下文输入给 LLM 以生成更完整的总结。

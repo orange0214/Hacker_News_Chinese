@@ -82,7 +82,7 @@ class TranslateService:
         ) -> Dict[int, Optional[AITranslatedResult]]:
         # concurrently translate and summarize multiple inputs
 
-        ids = list(inputs.keys())
+        ids = list[int](inputs.keys())
 
         tasks = [
             self.translate_and_summarize(
@@ -94,7 +94,7 @@ class TranslateService:
 
         results = await asyncio.gather(*tasks)
 
-        return dict(zip(ids, results))
+        return dict[int, AITranslatedResult | None](zip[tuple[int, AITranslatedResult | None]](ids, results))
         
 
 translate_service = TranslateService()
